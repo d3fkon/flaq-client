@@ -8,7 +8,9 @@ module.exports = {
       files: ['*.ts', '*.tsx'],
       rules: {
         '@typescript-eslint/no-shadow': ['error'],
+        '@typescript-eslint/no-unused-vars': 'off',
         'no-shadow': 'off',
+        'react-native/no-inline-styles': 'off',
         'no-undef': 'off',
       },
     },
