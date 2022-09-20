@@ -7,8 +7,12 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
 /** local imports */
 import LoginScreen from '../screens/LoginScreen';
-import HomeScreen from '../screens/HomeScreen';
+import ExploreScreen from '../screens/ExploreScreen';
 import {Colors} from '../utils/colors';
+import HomeScreen from '../screens/HomeScreen';
+import NewsScreen from '../screens/NewsScreen';
+import LevelScreen from '../screens/LevelScreen';
+import SignUpScreen from '../screens/SignUpScreen';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -56,8 +60,8 @@ const HomeStack = () => {
           },
         })}>
         <Tab.Screen name={'Home'} component={HomeScreen} />
-        <Tab.Screen name={'Explore'} component={HomeScreen} />
-        <Tab.Screen name={'News'} component={HomeScreen} />
+        <Tab.Screen name={'Explore'} component={ExploreScreen} />
+        <Tab.Screen name={'News'} component={NewsScreen} />
       </Tab.Navigator>
     );
   };
@@ -68,6 +72,8 @@ const HomeStack = () => {
       screenOptions={{headerShown: false}}>
       <Stack.Screen name="Tabs" component={Tabs} />
       <Stack.Screen name="Login" component={LoginScreen} />
+      <Stack.Screen name="SignUp" component={SignUpScreen} />
+      <Stack.Screen name="Level" component={LevelScreen} />
     </Stack.Navigator>
   );
 };

@@ -1,8 +1,6 @@
 import React, {FC, ReactNode} from 'react';
 import {
-  Platform,
   SafeAreaView,
-  ScrollView,
   StatusBar,
   View,
   ViewProps,
@@ -16,12 +14,16 @@ export interface Props extends ViewProps {
   children?: ReactNode;
   mt?: number;
   mb?: number;
+  background?: keyof typeof Colors.background;
+  fullWidth?: boolean;
 }
 
 const FlaqContainer: FC<Props> = ({
   style,
   mt = 0,
   mb = 0,
+  fullWidth = false,
+  background = 'darkest',
   children,
   ...safeAreaViewProps
 }) => {
@@ -31,14 +33,14 @@ const FlaqContainer: FC<Props> = ({
   };
 
   const defaultStyle: StyleProp<ViewStyle> = {
-    backgroundColor: Colors.background.darkest,
+    backgroundColor: Colors.background[background],
     flex: 1,
     alignItems: 'center',
   };
 
   const container: StyleProp<ViewStyle> = {
     flex: 1,
-    width: '90%',
+    width: fullWidth ? '100%' : '90%',
     alignItems: 'center',
   };
 

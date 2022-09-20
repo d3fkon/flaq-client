@@ -6,9 +6,11 @@ let theme = {
     lightest: '#ffffff',
     light: '#9999A5',
     normal: '#3d3d3d',
-    dark: '#1A1A1A',
+    dark: '#1a1a1a',
     darkest: '#0E0C0E',
+    black: '#000000',
     transparent: 'transparent',
+    purple: '#4A25B3',
   },
   text: {
     white: '#ffffff',

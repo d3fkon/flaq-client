@@ -11,13 +11,12 @@ type Props = {
   navigation: any;
 };
 
-const LoginScreen: FC<Props> = ({navigation}) => {
+const SignUpScreen: FC<Props> = ({navigation}) => {
   const onSubmit = async () => {
     navigation.navigate('Tabs');
   };
-
-  const signUp = () => {
-    navigation.navigate('SignUp');
+  const logIn = async () => {
+    navigation.navigate('Login');
   };
 
   return (
@@ -29,7 +28,7 @@ const LoginScreen: FC<Props> = ({navigation}) => {
           flex: 1,
         }}>
         <FlaqText weight="medium" size="lg" align="left">
-          login to flaq
+          sign up
         </FlaqText>
         <FlaqText color="normal" size="sm" align="left" mt={16}>
           enter your credentials
@@ -39,27 +38,27 @@ const LoginScreen: FC<Props> = ({navigation}) => {
           <FlaqInput placeholder="password" mt={28} />
           <FlaqButton mt={28} onPress={onSubmit}>
             <FlaqText color="black" weight="semibold" size="sm">
-              log in
+              sign up
             </FlaqText>
           </FlaqButton>
-          <TouchableOpacity onPress={signUp}>
+          <TouchableOpacity onPress={logIn}>
             <FlaqText
               weight="bold"
               size="sm"
               color="normal"
               mt={12}
               style={{textDecorationLine: 'underline'}}>
-              new user? sign up
+              log in?
             </FlaqText>
           </TouchableOpacity>
         </View>
         <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
-          <FlaqText size="xxs" color="normal">
+          <FlaqText size="xxxs" color="normal">
             by signing up you agree to our{' '}
           </FlaqText>
           <TouchableOpacity>
             <FlaqText
-              size="xxs"
+              size="xxxs"
               color="purple"
               style={{textDecorationLine: 'underline'}}>
               terms of use, privacy policy,{' '}
@@ -67,13 +66,13 @@ const LoginScreen: FC<Props> = ({navigation}) => {
           </TouchableOpacity>
           <TouchableOpacity>
             <FlaqText
-              size="xxs"
+              size="xxxs"
               color="purple"
               style={{textDecorationLine: 'underline'}}>
               information collection,{' '}
             </FlaqText>
           </TouchableOpacity>
-          <FlaqText size="xxs" color="normal">
+          <FlaqText size="xxxs" color="normal">
             and that you are over 18 years old
           </FlaqText>
         </View>
@@ -82,4 +81,4 @@ const LoginScreen: FC<Props> = ({navigation}) => {
   );
 };
 
-export default LoginScreen;
+export default SignUpScreen;
