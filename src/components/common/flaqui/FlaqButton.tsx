@@ -37,9 +37,11 @@ const FlaqButton: FC<ButtonProps> = ({
   const disableColor = (disabled && '#fffa') as string;
 
   const defaultStyle: StyleProp<ViewStyle> = {
-    padding: 12,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
     justifyContent: 'center',
     alignItems: 'center',
+    borderRadius: 8,
   };
 
   const marginStyles = {

@@ -34,7 +34,7 @@ const LoginScreen: FC<Props> = ({navigation}) => {
           <FlaqInput placeholder="email" mt={40} />
           <FlaqInput placeholder="password" mt={28} />
           <FlaqButton mt={28} onPress={onSubmit}>
-            <FlaqText color="black" weight="semibold">
+            <FlaqText color="black" weight="semibold" size="sm">
               log in
             </FlaqText>
           </FlaqButton>
