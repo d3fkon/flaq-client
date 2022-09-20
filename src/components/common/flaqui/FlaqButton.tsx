@@ -19,24 +19,14 @@ const FlaqButton: FC<ButtonProps> = ({
   style,
   children,
   fullWidth = true,
-  variant = 'light',
+  variant = 'lightest',
   loading = false,
   mt = 0,
   mb = 0,
   ...touchableProps
 }) => {
   const variantStyle = (): StyleProp<ViewStyle> => {
-    switch (variant) {
-      case 'dark': {
-        return {backgroundColor: Colors.background.normal};
-      }
-      case 'normal': {
-        return {backgroundColor: Colors.background.light};
-      }
-      default: {
-        return {backgroundColor: Colors.background.lightest};
-      }
-    }
+    return {backgroundColor: Colors.background[variant]};
   };
 
   const fullWidthStyle = (): StyleProp<ViewStyle> => {
@@ -47,7 +37,7 @@ const FlaqButton: FC<ButtonProps> = ({
   const disableColor = (disabled && '#fffa') as string;
 
   const defaultStyle: StyleProp<ViewStyle> = {
-    padding: 16,
+    padding: 12,
     justifyContent: 'center',
     alignItems: 'center',
   };

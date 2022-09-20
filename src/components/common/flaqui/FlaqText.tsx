@@ -5,7 +5,7 @@ import {Styles} from '../../../utils/styles';
 
 type PrimaryWeight = keyof typeof Styles.fontFamily.primary;
 type SecondaryWeight = keyof typeof Styles.fontFamily.secondary;
-type Variant = keyof typeof Colors.text;
+type Color = keyof typeof Colors.text;
 
 type PrimaryTextProps = {
   type?: 'primary';
@@ -19,7 +19,7 @@ type SecondaryTextProps = {
 
 export type FlaqTextProps = {
   style?: StyleProp<TextStyle>;
-  variant?: Variant;
+  color?: Color;
   fullWidth?: boolean;
   children?: ReactNode;
   italic?: boolean;
@@ -39,15 +39,15 @@ const FlaqText: FC<FlaqTextCompleteProps> = ({
   italic = false,
   forwardRef,
   type = 'primary',
-  variant = 'white',
+  color = 'white',
   align = 'center',
   size = 'md',
   mt = 0,
   mb = 0,
   ...textProps
 }) => {
-  const variantStyle = (): StyleProp<TextStyle> => {
-    return {color: Colors.text[variant]};
+  const colorStyle = (): StyleProp<TextStyle> => {
+    return {color: Colors.text[color]};
   };
 
   const typeStyle = (): StyleProp<TextStyle> => {
@@ -76,7 +76,7 @@ const FlaqText: FC<FlaqTextCompleteProps> = ({
   return (
     <Text
       ref={forwardRef}
-      style={[typeStyle(), variantStyle(), marginStyles, defaultStyles, style]}
+      style={[typeStyle(), colorStyle(), marginStyles, defaultStyles, style]}
       {...textProps}>
       {children}
     </Text>

@@ -15,7 +15,7 @@ const FlaqLoader: FC<Props> = ({text, children, style, ...textProps}) => {
         {flex: 1, justifyContent: 'center', alignItems: 'center'},
         style || {},
       ]}>
-      <FlaqText variant="normal" type="secondary" {...textProps}>
+      <FlaqText color="normal" type="secondary" {...textProps}>
         {text}
       </FlaqText>
       {children}

@@ -9,10 +9,10 @@ type Props = {
 const Header: FC<Props> = ({heading, subHeading}) => {
   return (
     <>
-      <FlaqText weight="semibold" variant="white" size="xl" align="left">
+      <FlaqText weight="semibold" color="white" size="xl" align="left">
         {heading}
       </FlaqText>
-      <FlaqText type="secondary" weight="bold" align="left" variant="normal">
+      <FlaqText type="secondary" weight="bold" align="left" color="normal">
         {subHeading}
       </FlaqText>
     </>

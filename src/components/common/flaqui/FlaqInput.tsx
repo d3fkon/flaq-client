@@ -17,7 +17,7 @@ export interface FlaqInputProps extends TextInputProps {
 const FlaqInput: FC<FlaqInputProps> = ({
   style,
   fullWidth = true,
-  variant = 'light',
+  variant = 'normal',
   hidden = false,
   mt = 0,
   mb = 0,
@@ -27,17 +27,7 @@ const FlaqInput: FC<FlaqInputProps> = ({
   const [focusStyle, setFocusStyle] = useState<StyleProp<TextStyle>>({});
 
   const variantStyle = (): StyleProp<TextStyle> => {
-    switch (variant) {
-      case 'dark': {
-        return {backgroundColor: Colors.background.normal};
-      }
-      case 'normal': {
-        return {backgroundColor: Colors.background.light};
-      }
-      default: {
-        return {backgroundColor: Colors.background.lightest};
-      }
-    }
+    return {backgroundColor: Colors.background[variant]};
   };
 
   const fullWidthStyle = (): StyleProp<TextStyle> => {
@@ -50,13 +40,15 @@ const FlaqInput: FC<FlaqInputProps> = ({
   };
 
   const defaultStyle: StyleProp<TextStyle> = {
-    padding: 16,
-    fontFamily: Styles.fontFamily.secondary.bold.normal,
+    paddingVertical: 12,
+    paddingHorizontal: 12,
+    fontFamily: Styles.fontFamily.primary.medium.normal,
     color: Colors.text.white,
-    backgroundColor: Colors.background.dark,
+    backgroundColor: Colors.background.darkest,
     borderWidth: 1,
     fontSize: Styles.fontSize.md,
     borderColor: Colors.background.normal,
+    borderRadius: 4,
   };
 
   return (
@@ -84,7 +76,7 @@ const FlaqInput: FC<FlaqInputProps> = ({
       }}
       onFocus={e => {
         setFocusStyle({
-          backgroundColor: Colors.background.darkest,
+          backgroundColor: Colors.background.dark,
         });
         if (inputProps.onFocus) {
           inputProps.onFocus(e);

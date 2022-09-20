@@ -8,6 +8,7 @@ let theme = {
     normal: '#3d3d3d',
     dark: '#1A1A1A',
     darkest: '#0E0C0E',
+    transparent: 'transparent',
   },
   text: {
     white: '#ffffff',
@@ -20,6 +21,7 @@ let theme = {
     pending: '#d27d00',
     link: '#0066cc',
     awaiting: '#d27d00',
+    purple: '#6F6CD9',
   },
 };
 // if (colorScheme === 'dark') {
