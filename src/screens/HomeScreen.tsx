@@ -57,16 +57,9 @@ export type InfoCardType = typeof infoCards[0];
 export type ArticleTypes = typeof articles[0];
 
 const HomeScreen = ({navigation}: {navigation: any}) => {
-  const goBack = () => {
-    navigation.goBack();
-  };
-
   return (
     <FlaqContainer fullWidth={true}>
       <Container>
-        {/* <TouchableOpacity onPress={goBack}>
-          <Fontisto name="arrow-left-l" color={Colors.text.white} size={20} />
-        </TouchableOpacity> */}
         <View>
           <FlaqText mt={30} mb={20} size="lg" weight="semibold">
             hi ankit
@@ -75,9 +68,12 @@ const HomeScreen = ({navigation}: {navigation: any}) => {
       </Container>
       <ScrollView
         horizontal={true}
+        contentContainerStyle={{
+          paddingLeft: 20,
+        }}
         style={[
           globalStyles.fullWidth,
-          {paddingLeft: 20, marginTop: 20, maxHeight: 100, minHeight: 100},
+          {marginTop: 20, maxHeight: 100, minHeight: 100},
         ]}>
         {infoCards.map(info => {
           return <InfoCard data={info} key={info.name} />;

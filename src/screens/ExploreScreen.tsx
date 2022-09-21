@@ -6,6 +6,7 @@ import FlaqText from '../components/common/flaqui/FlaqText';
 import globalStyles from '../utils/global_styles';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {Colors} from '../utils/colors';
+import Container from '../components/common/Container';
 
 const DATA = [
   {
@@ -30,8 +31,8 @@ const ExploreScreen: FC<ExploreScreenProps> = ({navigation}) => {
   };
 
   return (
-    <>
-      <FlaqContainer>
+    <FlaqContainer fullWidth={true}>
+      <Container>
         <FlaqText
           align="left"
           weight="semibold"
@@ -41,23 +42,28 @@ const ExploreScreen: FC<ExploreScreenProps> = ({navigation}) => {
           style={globalStyles.fullWidth}>
           explore flaq
         </FlaqText>
-        <ScrollView
-          horizontal={true}
-          style={{
-            width: '100%',
-            maxHeight: 350,
-          }}>
-          {DATA.map((content, index) => {
-            return (
-              <Box
-                key={index}
-                index={index}
-                content={content}
-                openLevel={openLevel}
-              />
-            );
-          })}
-        </ScrollView>
+      </Container>
+      <ScrollView
+        horizontal={true}
+        contentContainerStyle={{
+          paddingLeft: 20,
+        }}
+        style={{
+          minHeight: 350,
+          maxHeight: 350,
+        }}>
+        {DATA.map((content, index) => {
+          return (
+            <Box
+              key={index}
+              index={index}
+              content={content}
+              openLevel={openLevel}
+            />
+          );
+        })}
+      </ScrollView>
+      <Container>
         <FlaqText
           align="left"
           weight="semibold"
@@ -84,8 +90,8 @@ const ExploreScreen: FC<ExploreScreenProps> = ({navigation}) => {
             />
           </FlaqButton>
         </View>
-      </FlaqContainer>
-    </>
+      </Container>
+    </FlaqContainer>
   );
 };
 
@@ -100,12 +106,12 @@ const Box: FC<BoxProps> = ({index, content, openLevel}) => {
     <TouchableOpacity style={{height: 350}}>
       <View
         style={{
-          width: 320,
+          width: 350,
           height: 350,
           borderRadius: 20,
           position: 'relative',
           overflow: 'hidden',
-          marginRight: 20,
+          marginRight: 10,
         }}>
         <View
           style={{

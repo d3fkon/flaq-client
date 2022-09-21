@@ -25,7 +25,10 @@ const Lesson: FC<LessonProp> = ({chapters, lesson, navigation}) => {
       </Container>
       <ScrollView
         horizontal={true}
-        style={[globalStyles.fullWidth, {paddingLeft: 20, marginTop: 20}]}>
+        contentContainerStyle={{
+          paddingLeft: 20,
+        }}
+        style={[globalStyles.fullWidth, {marginTop: 20}]}>
         {chapters.map((chapter: any) => {
           return (
             <Chapter

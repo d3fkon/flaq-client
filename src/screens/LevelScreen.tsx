@@ -1,5 +1,5 @@
 import React from 'react';
-import {Image, View} from 'react-native';
+import {Image, Pressable, View} from 'react-native';
 import {ScrollView, TouchableOpacity} from 'react-native-gesture-handler';
 import FlaqContainer from '../components/common/flaqui/FlaqContainer';
 import FlaqText from '../components/common/flaqui/FlaqText';
@@ -7,6 +7,8 @@ import Fontisto from 'react-native-vector-icons/Fontisto';
 import {Colors} from '../utils/colors';
 import globalStyles from '../utils/global_styles';
 import Lesson from '../components/Lesson';
+import Container from '../components/common/Container';
+import FlaqButton from '../components/common/flaqui/FlaqButton';
 
 const lessons = [
   {
@@ -64,8 +66,8 @@ const lessons = [
 
 export type LessonType = typeof lessons[0];
 
-const LevelScreen = ({navigation}: any) => {
-  const goBack = () => {
+const LevelScreen = ({navigation}: {navigation: any}) => {
+  const goBack = async () => {
     navigation.goBack();
   };
   return (
@@ -90,17 +92,18 @@ const LevelScreen = ({navigation}: any) => {
             top: -8,
           }}
         />
-        <View style={{width: '90%'}}>
-          <TouchableOpacity onPress={goBack}>
+        <Container
+          style={{zIndex: 10, backgroundColor: Colors.background.transparent}}>
+          <Pressable onPress={() => goBack()}>
             <Fontisto name="arrow-left-l" color={Colors.text.white} size={20} />
-          </TouchableOpacity>
+          </Pressable>
           <FlaqText align="left" size="lg" weight="semibold" mt={10}>
             lv.1 dive into web3
           </FlaqText>
           <FlaqText align="left" size="xs" style={{width: '60%'}} mt={10}>
             learn about the evolution & relevance of web3
           </FlaqText>
-        </View>
+        </Container>
       </View>
       <ScrollView style={globalStyles.fullWidth}>
         {lessons.map(lesson => {
