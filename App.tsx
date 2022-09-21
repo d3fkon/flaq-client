@@ -1,6 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import Navigation from './src/navigation';
 import codePush from 'react-native-code-push';
+import GlobalProvider from './src/state/contexts/GlobalContext';
+import FlashMessage from 'react-native-flash-message';
 
 let CodePushOptions = {
   checkFrequency: codePush.CheckFrequency.MANUAL,
@@ -33,7 +35,12 @@ let App = () => {
     update();
   }, []);
 
-  return <Navigation />;
+  return (
+    <GlobalProvider updating={updating}>
+      <Navigation />
+      <FlashMessage position={'top'} />
+    </GlobalProvider>
+  );
 };
 
 App = codePush(CodePushOptions)(App);

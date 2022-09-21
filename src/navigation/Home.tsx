@@ -69,11 +69,11 @@ const HomeStack = () => {
 
   return (
     <Stack.Navigator
-      initialRouteName="Login"
+      initialRouteName="Tabs"
       screenOptions={{headerShown: false}}>
       <Stack.Screen name="Tabs" component={Tabs} />
-      <Stack.Screen name="Login" component={LoginScreen} />
-      <Stack.Screen name="SignUp" component={SignUpScreen} />
+      {/* <Stack.Screen name="Login" component={LoginScreen} /> */}
+      {/* <Stack.Screen name="SignUp" component={SignUpScreen} /> */}
       <Stack.Screen name="Level" component={LevelScreen} />
       <Stack.Screen name="Chapter" component={ChapterScreen} />
     </Stack.Navigator>

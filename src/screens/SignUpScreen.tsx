@@ -1,4 +1,4 @@
-import React, {FC} from 'react';
+import React, {FC, useContext} from 'react';
 import {View} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import FlaqButton from '../components/common/flaqui/FlaqButton';
@@ -6,6 +6,8 @@ import FlaqContainer from '../components/common/flaqui/FlaqContainer';
 import FlaqInput from '../components/common/flaqui/FlaqInput';
 import FlaqPasswordInput from '../components/common/flaqui/FlaqPasswordInput';
 import FlaqText from '../components/common/flaqui/FlaqText';
+import {setAccountStatus} from '../state/actions/global';
+import {AccountStatus, GlobalContext} from '../state/contexts/GlobalContext';
 import globalStyles from '../utils/global_styles';
 
 type Props = {
@@ -13,8 +15,10 @@ type Props = {
 };
 
 const SignUpScreen: FC<Props> = ({navigation}) => {
+  const {state, dispatch} = useContext(GlobalContext);
+
   const onSubmit = async () => {
-    navigation.navigate('Tabs');
+    dispatch(setAccountStatus(AccountStatus.EXISITING));
   };
   const logIn = async () => {
     navigation.navigate('Login');

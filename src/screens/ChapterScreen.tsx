@@ -15,7 +15,7 @@ const ChapterScreen = ({navigation}: any) => {
   return (
     <FlaqContainer fullWidth={true}>
       <Container>
-        <TouchableOpacity onPress={goBack}>
+        <TouchableOpacity onPress={goBack} style={{marginTop: 20}}>
           <Fontisto name="arrow-left-l" color={Colors.text.white} size={20} />
         </TouchableOpacity>
         <FlaqText align="left" size="lg" weight="semibold" mt={10}>
