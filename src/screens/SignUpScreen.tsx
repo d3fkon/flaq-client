@@ -25,7 +25,7 @@ const SignUpScreen: FC<Props> = ({navigation}) => {
       <View
         style={{
           marginTop: 30,
-          width: '80%',
+          width: '90%',
           flex: 1,
         }}>
         <FlaqText weight="medium" size="lg" align="left">
@@ -60,12 +60,12 @@ const SignUpScreen: FC<Props> = ({navigation}) => {
           </TouchableOpacity>
         </View>
         <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
-          <FlaqText size="xxxs" color="normal">
+          <FlaqText size="xxs" color="normal">
             by signing up you agree to our{' '}
           </FlaqText>
           <TouchableOpacity>
             <FlaqText
-              size="xxxs"
+              size="xxs"
               color="purple"
               style={{textDecorationLine: 'underline'}}>
               terms of use, privacy policy,{' '}
@@ -73,13 +73,13 @@ const SignUpScreen: FC<Props> = ({navigation}) => {
           </TouchableOpacity>
           <TouchableOpacity>
             <FlaqText
-              size="xxxs"
+              size="xxs"
               color="purple"
               style={{textDecorationLine: 'underline'}}>
               information collection,{' '}
             </FlaqText>
           </TouchableOpacity>
-          <FlaqText size="xxxs" color="normal">
+          <FlaqText size="xxs" color="normal">
             and that you are over 18 years old
           </FlaqText>
         </View>

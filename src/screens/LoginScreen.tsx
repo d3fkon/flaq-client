@@ -26,7 +26,7 @@ const LoginScreen: FC<Props> = ({navigation}) => {
       <View
         style={{
           marginTop: 30,
-          width: '80%',
+          width: '90%',
           flex: 1,
         }}>
         <FlaqText weight="medium" size="lg" align="left">
