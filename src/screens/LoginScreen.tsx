@@ -4,6 +4,7 @@ import {TouchableOpacity} from 'react-native-gesture-handler';
 import FlaqButton from '../components/common/flaqui/FlaqButton';
 import FlaqContainer from '../components/common/flaqui/FlaqContainer';
 import FlaqInput from '../components/common/flaqui/FlaqInput';
+import FlaqPasswordInput from '../components/common/flaqui/FlaqPasswordInput';
 import FlaqText from '../components/common/flaqui/FlaqText';
 import globalStyles from '../utils/global_styles';
 
@@ -35,8 +36,15 @@ const LoginScreen: FC<Props> = ({navigation}) => {
           enter your credentials
         </FlaqText>
         <View style={[globalStyles.fullCenter, {justifyContent: 'flex-start'}]}>
-          <FlaqInput placeholder="email" mt={40} />
-          <FlaqInput placeholder="password" mt={28} />
+          <FlaqInput placeholder="email" mt={40} mb={14} />
+          {/* <FlaqInput placeholder="password" mt={28} /> */}
+          <View style={globalStyles.fullWidth}>
+            <FlaqPasswordInput
+              placeholder="password"
+              mt={14}
+              style={globalStyles.fullWidth}
+            />
+          </View>
           <FlaqButton mt={28} onPress={onSubmit}>
             <FlaqText color="black" weight="semibold" size="sm">
               log in

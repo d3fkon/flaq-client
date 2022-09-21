@@ -13,6 +13,7 @@ import HomeScreen from '../screens/HomeScreen';
 import NewsScreen from '../screens/NewsScreen';
 import LevelScreen from '../screens/LevelScreen';
 import SignUpScreen from '../screens/SignUpScreen';
+import ChapterScreen from '../screens/ChapterScreen';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -74,6 +75,7 @@ const HomeStack = () => {
       <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen name="SignUp" component={SignUpScreen} />
       <Stack.Screen name="Level" component={LevelScreen} />
+      <Stack.Screen name="Chapter" component={ChapterScreen} />
     </Stack.Navigator>
   );
 };

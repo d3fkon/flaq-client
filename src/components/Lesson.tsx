@@ -9,9 +9,10 @@ import FlaqText from './common/flaqui/FlaqText';
 export type LessonProp = {
   chapters: any;
   lesson: string;
+  navigation: any;
 };
 
-const Lesson: FC<LessonProp> = ({chapters, lesson}) => {
+const Lesson: FC<LessonProp> = ({chapters, lesson, navigation}) => {
   return (
     <Container fullWidth={true} mt={30}>
       <Container style={globalStyles.rowSpaceBetween}>
@@ -26,7 +27,13 @@ const Lesson: FC<LessonProp> = ({chapters, lesson}) => {
         horizontal={true}
         style={[globalStyles.fullWidth, {paddingLeft: 20, marginTop: 20}]}>
         {chapters.map((chapter: any) => {
-          return <Chapter key={chapter.heading} data={chapter} />;
+          return (
+            <Chapter
+              key={chapter.heading}
+              data={chapter}
+              navigation={navigation}
+            />
+          );
         })}
       </ScrollView>
     </Container>

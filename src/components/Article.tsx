@@ -1,9 +1,9 @@
+import {TouchableOpacity, Image, View} from 'react-native';
 import React from 'react';
-import {Image, TouchableOpacity} from 'react-native';
 import {Colors} from '../utils/colors';
 import FlaqText from './common/flaqui/FlaqText';
 
-const Chapter = ({data, navigation}: {data: any; navigation: any}) => {
+const Article = ({data}: {data: any}) => {
   const getLink: NodeRequire = (icon: string) => {
     switch (icon) {
       case 'one': {
@@ -23,36 +23,40 @@ const Chapter = ({data, navigation}: {data: any; navigation: any}) => {
       }
     }
   };
-  const link = getLink(data.icon);
 
-  const goToChapter = () => {
-    navigation.navigate('Chapter');
-  };
+  const link = getLink(data.icon);
 
   return (
     <TouchableOpacity
-      onPress={goToChapter}
       style={{
         backgroundColor: Colors.background.black,
         padding: 16,
         borderRadius: 8,
         borderColor: Colors.background.dark,
         borderWidth: 1,
-        width: 200,
-        marginRight: 10,
+        width: '100%',
+        marginBottom: 10,
+        flexDirection: 'row',
       }}>
       <Image
         source={link}
-        style={{width: 40, height: 40, resizeMode: 'contain'}}
+        style={{
+          width: 100,
+          height: 100,
+          resizeMode: 'contain',
+          marginRight: 20,
+        }}
       />
-      <FlaqText size="xs" weight="semibold" align="left" mt={12}>
-        {data.heading}
-      </FlaqText>
-      <FlaqText size="xxs" align="left" mt={6} color="light">
-        {data.subHeading}
-      </FlaqText>
+      <View style={{justifyContent: 'center'}}>
+        <FlaqText size="xs" weight="semibold" align="left" mt={12}>
+          {data.heading}
+        </FlaqText>
+        <FlaqText size="xs" align="left" mt={6} color="white" weight="semibold">
+          {data.subHeading}
+        </FlaqText>
+      </View>
     </TouchableOpacity>
   );
 };
 
-export default Chapter;
+export default Article;

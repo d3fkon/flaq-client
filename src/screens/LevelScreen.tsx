@@ -106,6 +106,7 @@ const LevelScreen = ({navigation}: any) => {
         {lessons.map(lesson => {
           return (
             <Lesson
+              navigation={navigation}
               key={lesson.lesson}
               chapters={lesson.chapters}
               lesson={lesson.lesson}
