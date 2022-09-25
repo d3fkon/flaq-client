@@ -1,8 +1,8 @@
 import {useContext, useDebugValue} from 'react';
-import {AuthContext} from '../state/contexts/AuthContext';
+import {GlobalContext} from '../state/contexts/GlobalContext';
 
 const useAuth = () => {
-  return useContext(AuthContext);
+  return useContext(GlobalContext);
 };
 
 export default useAuth;

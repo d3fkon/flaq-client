@@ -9,7 +9,6 @@ const Navigation = () => {
   const {state} = useContext(GlobalContext);
 
   const renderContent = () => {
-    console.log('RENDERING');
     switch (state.accountStatus) {
       case AccountStatus.UPDATE: {
         return <UpdateStack />;
@@ -21,7 +20,7 @@ const Navigation = () => {
         return <HomeStack />;
       }
       default: {
-        return <HomeStack />;
+        return <UpdateStack />;
       }
     }
   };

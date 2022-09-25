@@ -6,7 +6,7 @@ import FlaqContainer from '../components/common/flaqui/FlaqContainer';
 import FlaqInput from '../components/common/flaqui/FlaqInput';
 import FlaqPasswordInput from '../components/common/flaqui/FlaqPasswordInput';
 import FlaqText from '../components/common/flaqui/FlaqText';
-import {setAccountStatus, setUser} from '../state/actions/global';
+import {setAccountStatus, setAuth, setUser} from '../state/actions/global';
 import {AccountStatus, GlobalContext} from '../state/contexts/GlobalContext';
 import globalStyles from '../utils/global_styles';
 import * as Yup from 'yup';
@@ -27,12 +27,11 @@ type Props = {
 
 const LoginScreen: FC<Props> = ({navigation}) => {
   const {state, dispatch} = useContext(GlobalContext);
-  const {setAuth} = useAuth();
 
   const loginUser = async (email: string, password: string) => {
     try {
       const tokens = await auth(email, password, 'login');
-      setAuth({email, accessToken: tokens.accessToken});
+      dispatch(setAuth({email, accessToken: tokens.accessToken}));
       await StorageSetItem('x-access-token', tokens.accessToken);
       await StorageSetItem('x-refresh-token', tokens.refreshToken);
       showMessage({
@@ -67,8 +66,8 @@ const LoginScreen: FC<Props> = ({navigation}) => {
         </FlaqText>
         <Formik
           initialValues={{
-            email: 'ankit.negi@onpar.in',
-            password: 'ankitnegi',
+            email: '',
+            password: '',
           }}
           validationSchema={validationSchema}
           validateOnBlur={true}
@@ -103,15 +102,15 @@ const LoginScreen: FC<Props> = ({navigation}) => {
                       globalStyles.fullWidth,
                       {
                         borderBottomColor:
-                          touched && errors.email
+                          touched.email && errors.email
                             ? 'red'
-                            : Colors.text['solana-green'],
+                            : Colors.background.normal,
                       },
                     ]}
                   />
                   <View style={{height: 20}}>
                     <FlaqText size="xxs" align="left">
-                      {errors.email}
+                      {touched.email && errors.email}
                     </FlaqText>
                   </View>
                 </View>
@@ -126,15 +125,15 @@ const LoginScreen: FC<Props> = ({navigation}) => {
                       globalStyles.fullWidth,
                       {
                         borderBottomColor:
-                          touched && errors.password
+                          touched.password && errors.password
                             ? 'red'
-                            : Colors.text['solana-green'],
+                            : Colors.background.normal,
                       },
                     ]}
                   />
                   <View style={{height: 20}}>
                     <FlaqText size="xxs" align="left">
-                      {errors.password}
+                      {touched.password && errors.password}
                     </FlaqText>
                   </View>
                 </View>

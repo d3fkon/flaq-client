@@ -20,6 +20,7 @@ import {AccountStatus, GlobalContext} from '../state/contexts/GlobalContext';
 import {setAccountStatus} from '../state/actions/global';
 import axios from '../apis/axios';
 import useAuth from '../hooks/useAuth';
+import {StorageClearAll} from '../utils/storage';
 
 const infoCards = [
   {name: 'daily streak', value: 5},
@@ -50,14 +51,15 @@ export type InfoCardType = typeof infoCards[0];
 export type ArticleTypes = typeof articles[0];
 
 const HomeScreen = () => {
-  const {state, dispatch} = useContext(GlobalContext);
-  const {auth} = useAuth();
-
-  console.log('auth', auth);
+  const {
+    state: {auth},
+    dispatch,
+  } = useContext(GlobalContext);
 
   const handleLogout = async () => {
     try {
       await logout();
+      await StorageClearAll();
       dispatch(setAccountStatus(AccountStatus.NEW));
     } catch (e) {
       showMessage({
@@ -105,7 +107,7 @@ const HomeScreen = () => {
       <Container>
         <View style={[globalStyles.fullWidth, globalStyles.rowSpaceBetween]}>
           <FlaqText mt={30} mb={20} size="lg" weight="semibold">
-            hi {auth.email.split('@')[0]}
+            hi {auth?.email?.split('@')[0]}
           </FlaqText>
           <TouchableOpacity
             onPress={handleLogout}
