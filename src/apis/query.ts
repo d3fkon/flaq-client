@@ -13,6 +13,21 @@ export const auth = async (
   return response.data;
 };
 
+export const sendOtp = async (email: string) => {
+  const response = await axios.post('/auth/email-otp/sendOtp', {
+    email,
+  });
+  return response.data;
+};
+
+export const verifyOtp = async (email: string, otp: string) => {
+  const response = await axios.post('/auth/email-otp/verifyOtp', {
+    email,
+    otp,
+  });
+  response.data;
+};
+
 export const logout = async () => {
   const response = await axios.get('/auth/logout');
   return response.data;
