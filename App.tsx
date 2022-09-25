@@ -3,6 +3,8 @@ import Navigation from './src/navigation';
 import codePush from 'react-native-code-push';
 import GlobalProvider from './src/state/contexts/GlobalContext';
 import FlashMessage from 'react-native-flash-message';
+import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
+import {Platform, SafeAreaView} from 'react-native';
 
 let CodePushOptions = {
   checkFrequency: codePush.CheckFrequency.MANUAL,
@@ -11,8 +13,10 @@ let CodePushOptions = {
   },
 };
 
+const queryClient = new QueryClient();
+
 let App = () => {
-  const [updating, setUpdating] = useState(true);
+  const [updating, setUpdating] = useState(false);
 
   const update = async () => {
     setUpdating(true);
@@ -32,14 +36,19 @@ let App = () => {
   };
 
   useEffect(() => {
-    update();
+    // update();
   }, []);
 
   return (
-    <GlobalProvider updating={updating}>
-      <Navigation />
-      <FlashMessage position={'top'} />
-    </GlobalProvider>
+    <QueryClientProvider client={queryClient}>
+      <GlobalProvider updating={updating}>
+        <Navigation />
+        <FlashMessage
+          position={'top'}
+          statusBarHeight={Platform.OS === 'ios' ? 40 : 0}
+        />
+      </GlobalProvider>
+    </QueryClientProvider>
   );
 };
 

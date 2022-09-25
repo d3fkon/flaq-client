@@ -1,10 +1,7 @@
-import {View, Text, Image} from 'react-native';
+import {Image} from 'react-native';
 import React, {FC} from 'react';
 import FlaqText from './common/flaqui/FlaqText';
-import Container from './common/Container';
 import {InfoCardType} from '../screens/HomeScreen';
-import globalStyles from '../utils/global_styles';
-import {TouchableOpacity} from 'react-native-gesture-handler';
 import {Colors} from '../utils/colors';
 import LinearGradient from 'react-native-linear-gradient';
 

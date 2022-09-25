@@ -40,7 +40,8 @@ const FlaqContainer: FC<Props> = ({
 
   const container: StyleProp<ViewStyle> = {
     flex: 1,
-    width: fullWidth ? '100%' : '90%',
+    width: '100%',
+    paddingHorizontal: fullWidth ? 0 : 16,
     alignItems: 'center',
   };
 

@@ -1,6 +1,12 @@
 import React from 'react';
-import {Image, Pressable, View} from 'react-native';
-import {ScrollView, TouchableOpacity} from 'react-native-gesture-handler';
+import {
+  ActivityIndicator,
+  Image,
+  Pressable,
+  ScrollView,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import FlaqContainer from '../components/common/flaqui/FlaqContainer';
 import FlaqText from '../components/common/flaqui/FlaqText';
 import Fontisto from 'react-native-vector-icons/Fontisto';
@@ -8,68 +14,119 @@ import {Colors} from '../utils/colors';
 import globalStyles from '../utils/global_styles';
 import Lesson from '../components/Lesson';
 import Container from '../components/common/Container';
-import FlaqButton from '../components/common/flaqui/FlaqButton';
+import {useNavigation, useRoute} from '@react-navigation/native';
+import {useQuery} from '@tanstack/react-query';
+import useAxiosPrivate from '../hooks/useAxiosPrivate';
 
-const lessons = [
-  {
-    lesson: "the term 'web3' explained",
-    chapters: [
-      {
-        icon: 'one',
-        heading: 'web3 defined',
-        subHeading:
-          'learn about new iteration of the world wide web which incorporates concepts such as decentralization',
-      },
-      {
-        icon: 'two',
-        heading: 'the evolution of web3',
-        subHeading:
-          'in 2006, Berners-Lee described the semantic web as a component of Web 3.0, which is different from the',
-      },
-    ],
-  },
-  {
-    lesson: 'tech behind web3: blockchain',
-    chapters: [
-      {
-        icon: 'three',
-        heading: 'blockchain defined',
-        subHeading:
-          'a shared, immutable ledger that facilitates the process of recording transactions and tracking',
-      },
-      {
-        icon: 'four',
-        heading: 'where did blockchain come from',
-        subHeading:
-          'blockchain TECH was described in 1991 by the research scientist Stuart Haber and W. Scott Stornetta.',
-      },
-    ],
-  },
-  {
-    lesson: 'tech behind web3: blockchain new',
-    chapters: [
-      {
-        icon: 'three',
-        heading: 'blockchain defined',
-        subHeading:
-          'a shared, immutable ledger that facilitates the process of recording transactions and tracking',
-      },
-      {
-        icon: 'four',
-        heading: 'where did blockchain come from',
-        subHeading:
-          'blockchain TECH was described in 1991 by the research scientist Stuart Haber and W. Scott Stornetta.',
-      },
-    ],
-  },
-];
+export interface Video {
+  url: string;
+  desc: string;
+  title: string;
+}
 
-export type LessonType = typeof lessons[0];
+export interface Article {
+  url: string;
+  title: string;
+  iconUrl: string;
+}
 
-const LevelScreen = ({navigation}: {navigation: any}) => {
+export type ContentType = 'VideoAndArticles' | 'Video' | 'Article';
+
+export interface Campaign {
+  _id: string;
+  title: string;
+  description1: string;
+  description2: string;
+  description3: string;
+  videos: Video[];
+  contentType: ContentType;
+  status: string;
+  image: string;
+  articles: Article[];
+  quizzes: any[];
+  createdAt: Date;
+  updatedAt: Date;
+  __v: number;
+}
+
+export interface Level2 {
+  _id: string;
+  title: string;
+  campaigns: Campaign[];
+}
+
+export interface MultipleLang {
+  eng: string;
+  hn: string;
+  _id: string;
+}
+
+export interface Level {
+  _id: string;
+  imageUrl: string;
+  title: string;
+  description: string;
+  level2: Level2[];
+  language: string;
+  createdAt: Date;
+  updatedAt: Date;
+  __v: number;
+  multipleLang: MultipleLang;
+}
+
+const LevelScreen = () => {
+  const navigation = useNavigation();
+  const route = useRoute();
+  const axios = useAxiosPrivate();
+
+  const params = route.params as any;
+  const query = params.level;
+
+  const {data, isLoading, isError} = useQuery(
+    ['level2', query],
+    async () => {
+      const response = await axios.get<Level>(`/campaigns/level1/${query}`);
+      return response.data;
+    },
+    {
+      onError: error => {
+        console.log('LEVEL1', error);
+      },
+    },
+  );
+
   const goBack = async () => {
     navigation.goBack();
   };
+
+  if (isLoading) {
+    return (
+      <FlaqContainer fullWidth={true}>
+        <View style={globalStyles.fullCenter}>
+          <ActivityIndicator />
+        </View>
+      </FlaqContainer>
+    );
+  }
+
+  if (isError) {
+    return (
+      <FlaqContainer fullWidth={true}>
+        <View style={globalStyles.fullCenter}>
+          {/* <ActivityIndicator /> */}
+          <FlaqText>there is some error fetching data.</FlaqText>
+          <TouchableOpacity onPress={() => {}}>
+            <FlaqText
+              weight="semibold"
+              style={{textDecorationLine: 'underline'}}>
+              try again?
+            </FlaqText>
+          </TouchableOpacity>
+        </View>
+      </FlaqContainer>
+    );
+  }
+
   return (
     <FlaqContainer fullWidth={true}>
       <View
@@ -98,21 +155,22 @@ const LevelScreen = ({navigation}: {navigation: any}) => {
             <Fontisto name="arrow-left-l" color={Colors.text.white} size={20} />
           </Pressable>
           <FlaqText align="left" size="lg" weight="semibold" mt={10}>
-            lv.1 dive into web3
+            {data!.title}
           </FlaqText>
           <FlaqText align="left" size="xs" style={{width: '60%'}} mt={10}>
-            learn about the evolution & relevance of web3
+            {data!.description}
           </FlaqText>
         </Container>
       </View>
       <ScrollView style={globalStyles.fullWidth}>
-        {lessons.map(lesson => {
+        {data!.level2?.map(lesson => {
           return (
             <Lesson
-              navigation={navigation}
-              key={lesson.lesson}
-              chapters={lesson.chapters}
-              lesson={lesson.lesson}
+              // navigation={navigation}
+              level={query}
+              key={lesson.title}
+              campaigns={lesson.campaigns}
+              title={lesson.title}
             />
           );
         })}

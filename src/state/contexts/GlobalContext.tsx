@@ -59,7 +59,11 @@ const GlobalProvider = ({
       return;
     }
     /*** GETDATA */
-    // const appstate = await StorageGetItem('appstate');
+    const accessToken = await StorageGetItem('x-access-token');
+    if (accessToken) {
+      dispatch(setAccountStatus(AccountStatus.EXISITING));
+      return;
+    }
     // const storeduser = await StorageGetItem('user');
     // console.log('appstate', appstate);
     // console.log('storeduser', storeduser);

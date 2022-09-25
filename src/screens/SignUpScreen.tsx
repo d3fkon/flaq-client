@@ -1,6 +1,5 @@
 import React, {FC, useContext} from 'react';
-import {View} from 'react-native';
-import {TouchableOpacity} from 'react-native-gesture-handler';
+import {TouchableOpacity, View} from 'react-native';
 import FlaqButton from '../components/common/flaqui/FlaqButton';
 import FlaqContainer from '../components/common/flaqui/FlaqContainer';
 import FlaqInput from '../components/common/flaqui/FlaqInput';
