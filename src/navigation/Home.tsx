@@ -6,21 +6,32 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
 /** local imports */
-import LoginScreen from '../screens/LoginScreen';
 import ExploreScreen from '../screens/ExploreScreen';
 import {Colors} from '../utils/colors';
 import HomeScreen from '../screens/HomeScreen';
 import NewsScreen from '../screens/NewsScreen';
 import LevelScreen from '../screens/LevelScreen';
-import SignUpScreen from '../screens/SignUpScreen';
 import ChapterScreen from '../screens/ChapterScreen';
+import {RouteProp} from '@react-navigation/native';
 
-const Tab = createBottomTabNavigator();
-const Stack = createNativeStackNavigator();
+export type ExploreStackParamList = {
+  Level: {level: string} | undefined;
+  Explore: undefined;
+  Chapter: {campaignId: string; level: string};
+};
+
+export type TabParamList = {
+  Home: undefined;
+  ExploreStack: undefined;
+  News: undefined;
+};
+
+const TabStack = createBottomTabNavigator<TabParamList>();
+const ExploreStack = createNativeStackNavigator<ExploreStackParamList>();
 
 const HomeStack = () => {
   const renderTabIcon = (
-    route: any,
+    route: RouteProp<TabParamList, keyof TabParamList>,
     focused: boolean,
     color: string,
     size: number,
@@ -29,7 +40,7 @@ const HomeStack = () => {
     switch (route.name) {
       case 'Home':
         return <AntDesign name="home" size={size} color={color} />;
-      case 'Explore':
+      case 'ExploreStack':
         return <Entypo name="compass" size={size} color={color} />;
       case 'News':
         return <Feather name="book-open" size={size} color={color} />;
@@ -38,45 +49,45 @@ const HomeStack = () => {
     }
   };
 
-  const Tabs = () => {
+  const ExploreScreenStack = () => {
     return (
-      <Tab.Navigator
+      <ExploreStack.Navigator
         initialRouteName="Explore"
-        screenOptions={({route}) => ({
-          tabBarShowLabel: false,
+        screenOptions={{
           headerShown: false,
-          tabBarIcon: ({focused, color, size}) =>
-            renderTabIcon(route, focused, color, size),
-          tabBarActiveTintColor: Colors.background.lightest,
-          tabBarInactiveTintColor: Colors.background.light,
-          tabBarActiveBackgroundColor: Colors.background.darkest,
-          tabBarItemStyle: {
-            borderRadius: 20,
-          },
-          tabBarStyle: {
-            paddingHorizontal: 24,
-            backgroundColor: Colors.background.dark,
-            paddingVertical: 12,
-            borderTopColor: Colors.background.transparent,
-          },
-        })}>
-        <Tab.Screen name={'Home'} component={HomeScreen} />
-        <Tab.Screen name={'Explore'} component={ExploreScreen} />
-        <Tab.Screen name={'News'} component={NewsScreen} />
-      </Tab.Navigator>
+        }}>
+        <ExploreStack.Screen name="Explore" component={ExploreScreen} />
+        <ExploreStack.Screen name="Level" component={LevelScreen} />
+        <ExploreStack.Screen name="Chapter" component={ChapterScreen} />
+      </ExploreStack.Navigator>
     );
   };
 
   return (
-    <Stack.Navigator
-      initialRouteName="Tabs"
-      screenOptions={{headerShown: false}}>
-      <Stack.Screen name="Tabs" component={Tabs} />
-      {/* <Stack.Screen name="Login" component={LoginScreen} /> */}
-      {/* <Stack.Screen name="SignUp" component={SignUpScreen} /> */}
-      <Stack.Screen name="Level" component={LevelScreen} />
-      <Stack.Screen name="Chapter" component={ChapterScreen} />
-    </Stack.Navigator>
+    <TabStack.Navigator
+      initialRouteName="ExploreStack"
+      screenOptions={({route}) => ({
+        tabBarShowLabel: false,
+        headerShown: false,
+        tabBarIcon: ({focused, color, size}) =>
+          renderTabIcon(route, focused, color, size),
+        tabBarActiveTintColor: Colors.background.lightest,
+        tabBarInactiveTintColor: Colors.background.light,
+        tabBarActiveBackgroundColor: Colors.background.darkest,
+        tabBarItemStyle: {
+          borderRadius: 20,
+        },
+        tabBarStyle: {
+          paddingHorizontal: 24,
+          backgroundColor: Colors.background.dark,
+          paddingVertical: 12,
+          borderTopColor: Colors.background.transparent,
+        },
+      })}>
+      <TabStack.Screen name="Home" component={HomeScreen} />
+      <TabStack.Screen name="ExploreStack" component={ExploreScreenStack} />
+      <TabStack.Screen name="News" component={NewsScreen} />
+    </TabStack.Navigator>
   );
 };
 

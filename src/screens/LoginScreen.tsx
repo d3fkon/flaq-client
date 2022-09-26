@@ -1,12 +1,12 @@
 import {Formik} from 'formik';
-import React, {FC, useContext} from 'react';
+import React, {FC, useContext, useState} from 'react';
 import {TouchableOpacity, View} from 'react-native';
 import FlaqButton from '../components/common/flaqui/FlaqButton';
 import FlaqContainer from '../components/common/flaqui/FlaqContainer';
 import FlaqInput from '../components/common/flaqui/FlaqInput';
 import FlaqPasswordInput from '../components/common/flaqui/FlaqPasswordInput';
 import FlaqText from '../components/common/flaqui/FlaqText';
-import {setAccountStatus, setAuth, setUser} from '../state/actions/global';
+import {setAccountStatus, setAuth} from '../state/actions/global';
 import {AccountStatus, GlobalContext} from '../state/contexts/GlobalContext';
 import globalStyles from '../utils/global_styles';
 import * as Yup from 'yup';
@@ -14,19 +14,19 @@ import {Colors} from '../utils/colors';
 import {auth} from '../apis/query';
 import {showMessage} from 'react-native-flash-message';
 import {StorageSetItem} from '../utils/storage';
-import useAuth from '../hooks/useAuth';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {AuthStackParamList} from '../navigation/Auth';
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().required().email("well that's not an email"),
   password: Yup.string().required().min(8, 'weak password'),
 });
 
-type Props = {
-  navigation: any;
-};
+type Props = NativeStackScreenProps<AuthStackParamList, 'Login'>;
 
 const LoginScreen: FC<Props> = ({navigation}) => {
   const {state, dispatch} = useContext(GlobalContext);
+  const [success, setSuccess] = useState(false);
 
   const loginUser = async (email: string, password: string) => {
     try {
@@ -34,10 +34,12 @@ const LoginScreen: FC<Props> = ({navigation}) => {
       dispatch(setAuth({email, accessToken: tokens.accessToken}));
       await StorageSetItem('x-access-token', tokens.accessToken);
       await StorageSetItem('x-refresh-token', tokens.refreshToken);
+      await StorageSetItem('email', email);
       showMessage({
         message: 'successfully logged in',
         type: 'success',
       });
+      setSuccess(true);
     } catch (e) {
       showMessage({
         message: 'Invalid credentials',
@@ -74,7 +76,9 @@ const LoginScreen: FC<Props> = ({navigation}) => {
           onSubmit={async (values, {setSubmitting}) => {
             await loginUser(values.email, values.password);
             setSubmitting(false);
-            dispatch(setAccountStatus(AccountStatus.EXISITING));
+            if (success) {
+              dispatch(setAccountStatus(AccountStatus.EXISITING));
+            }
           }}>
           {({
             handleChange,

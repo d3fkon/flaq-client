@@ -14,9 +14,16 @@ import {Colors} from '../utils/colors';
 import globalStyles from '../utils/global_styles';
 import Lesson from '../components/Lesson';
 import Container from '../components/common/Container';
-import {useNavigation, useRoute} from '@react-navigation/native';
+import {
+  CompositeScreenProps,
+  useNavigation,
+  useRoute,
+} from '@react-navigation/native';
 import {useQuery} from '@tanstack/react-query';
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
+import {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {ExploreStackParamList, TabParamList} from '../navigation/Home';
 
 export interface Video {
   url: string;
@@ -74,13 +81,17 @@ export interface Level {
   multipleLang: MultipleLang;
 }
 
+export type LevelScreenProps = CompositeScreenProps<
+  NativeStackScreenProps<ExploreStackParamList, 'Level'>,
+  BottomTabScreenProps<TabParamList>
+>;
+
 const LevelScreen = () => {
-  const navigation = useNavigation();
-  const route = useRoute();
+  const navigation = useNavigation<LevelScreenProps['navigation']>();
+  const {params} = useRoute<LevelScreenProps['route']>();
   const axios = useAxiosPrivate();
 
-  const params = route.params as any;
-  const query = params.level;
+  const query = params!.level;
 
   const {data, isLoading, isError} = useQuery(
     ['level2', query],

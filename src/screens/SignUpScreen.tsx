@@ -14,15 +14,15 @@ import {Colors} from '../utils/colors';
 import {auth, sendOtp, verifyOtp} from '../apis/query';
 import {showMessage} from 'react-native-flash-message';
 import {StorageSetItem} from '../utils/storage';
+import {AuthStackParamList} from '../navigation/Auth';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().required().email("well that's not an email"),
   password: Yup.string().required().min(8, 'weak password'),
 });
 
-type Props = {
-  navigation: any;
-};
+type Props = NativeStackScreenProps<AuthStackParamList, 'SignUp'>;
 
 const SignUpScreen: FC<Props> = ({navigation}) => {
   const {state, dispatch} = useContext(GlobalContext);

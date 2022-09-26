@@ -123,6 +123,7 @@ const HomeScreen = () => {
       </Container>
       <ScrollView
         horizontal={true}
+        showsHorizontalScrollIndicator={false}
         contentContainerStyle={{
           paddingLeft: 16,
         }}

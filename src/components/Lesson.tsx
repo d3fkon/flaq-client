@@ -26,6 +26,7 @@ const Lesson: FC<Partial<Level2> & {level: string}> = ({
       </Container>
       <ScrollView
         horizontal={true}
+        showsHorizontalScrollIndicator={false}
         contentContainerStyle={{
           paddingLeft: 16,
         }}

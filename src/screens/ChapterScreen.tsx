@@ -1,7 +1,5 @@
 import {
   View,
-  Text,
-  Image,
   TouchableOpacity,
   ScrollView,
   ActivityIndicator,
@@ -17,27 +15,39 @@ import {AxiosError} from 'axios';
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import {useQuery} from '@tanstack/react-query';
 import {Campaign, Level} from './LevelScreen';
-import {useRoute} from '@react-navigation/native';
+import {
+  CompositeScreenProps,
+  useNavigation,
+  useRoute,
+} from '@react-navigation/native';
 import YoutubeIframe from 'react-native-youtube-iframe';
-import Article from '../components/Article';
 import MainArticle from '../components/MainArticle';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {ExploreStackParamList, TabParamList} from '../navigation/Home';
+import {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
 
-const ChapterScreen = ({navigation}: any) => {
-  const route = useRoute();
+export type ChapterScreenProps = CompositeScreenProps<
+  NativeStackScreenProps<ExploreStackParamList, 'Chapter'>,
+  BottomTabScreenProps<TabParamList>
+>;
+
+const ChapterScreen = () => {
+  const navigation = useNavigation<ChapterScreenProps['navigation']>();
+  const {
+    params: {campaignId, level},
+  } = useRoute<ChapterScreenProps['route']>();
+
   const [playing, setPlaying] = useState(false);
-  const params = route.params as any;
-  const campaingId: string = params.campaignId;
-  const level: string = params.level;
   const axiosPrivate = useAxiosPrivate();
 
-  const {data, isLoading, isError, isSuccess} = useQuery(
-    ['campaign', campaingId],
+  const {data, isLoading, isError} = useQuery(
+    ['campaign', campaignId],
     async () => {
       const response = await axiosPrivate.get<Level>(
         `/campaigns/level1/${level}`,
       );
       return response.data?.level2[0]?.campaigns?.find(
-        _campaign => _campaign._id === campaingId,
+        _campaign => _campaign._id === campaignId,
       ) as Campaign;
     },
     {
@@ -50,7 +60,6 @@ const ChapterScreen = ({navigation}: any) => {
   const onStateChange = useCallback((state: any) => {
     if (state === 'ended') {
       setPlaying(false);
-      // Alert.alert('video has finished playing!');
     }
   }, []);
 
@@ -105,16 +114,15 @@ const ChapterScreen = ({navigation}: any) => {
         data?.videos?.length > 0 && (
           <ScrollView
             horizontal={true}
-            // bounces={false}
+            showsHorizontalScrollIndicator={false}
             contentContainerStyle={{
               paddingHorizontal: 16,
-              height: 360,
-              maxHeight: 360,
-              minHeight: 360,
               borderBottomColor: Colors.background.normal,
               borderBottomWidth: 1,
             }}
-            style={{marginTop: 20}}>
+            style={{
+              marginTop: 20,
+            }}>
             {data?.videos?.map((video, index) => {
               const id = video.url.split('=')[1];
               return (
@@ -122,6 +130,7 @@ const ChapterScreen = ({navigation}: any) => {
                   <View
                     style={{
                       maxWidth: 344,
+                      width: 344,
                       padding: 12,
                       backgroundColor: Colors.background.dark,
                       borderColor: Colors.background.normal,
@@ -140,7 +149,10 @@ const ChapterScreen = ({navigation}: any) => {
                   </View>
                   <FlaqText
                     size="xs"
-                    style={{maxWidth: 344, paddingRight: 8}}
+                    style={{
+                      maxWidth: 344,
+                      paddingRight: 8,
+                    }}
                     align="left"
                     mt={16}>
                     {video.title}
@@ -155,7 +167,7 @@ const ChapterScreen = ({navigation}: any) => {
         data.contentType === 'Article') &&
         data?.articles?.length > 0 && (
           <>
-            <Container>
+            <Container style={{marginTop: 12}}>
               <FlaqText align="left" size="sm">
                 here’s a mix of articles and twitter threads explaining the
                 importance of ipfs
@@ -163,6 +175,7 @@ const ChapterScreen = ({navigation}: any) => {
             </Container>
             <ScrollView
               horizontal={true}
+              showsHorizontalScrollIndicator={false}
               contentContainerStyle={{
                 height: 200,
                 minHeight: 200,

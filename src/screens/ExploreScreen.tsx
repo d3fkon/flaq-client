@@ -19,16 +19,19 @@ import {setAccountStatus} from '../state/actions/global';
 import {AxiosError} from 'axios';
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import {showMessage} from 'react-native-flash-message';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {ExploreStackParamList} from '../navigation/Home';
 
 export type LevelOne = {
-  _id: number;
+  _id: string;
   title: string;
   description: string;
 };
 
-type ExploreScreenProps = {
-  navigation: any;
-};
+type ExploreScreenProps = NativeStackScreenProps<
+  ExploreStackParamList,
+  'Explore'
+>;
 
 const ExploreScreen: FC<ExploreScreenProps> = ({navigation}) => {
   const [lang, setLang] = useState<'eng' | 'hn'>('eng');
@@ -59,7 +62,7 @@ const ExploreScreen: FC<ExploreScreenProps> = ({navigation}) => {
     },
   );
 
-  const openLevel = (level: number) => {
+  const openLevel = (level: string) => {
     navigation.navigate('Level', {level});
   };
 
@@ -125,6 +128,7 @@ const ExploreScreen: FC<ExploreScreenProps> = ({navigation}) => {
       </Container>
       <ScrollView
         horizontal={true}
+        showsHorizontalScrollIndicator={false}
         contentContainerStyle={{
           paddingLeft: 16,
         }}
@@ -179,7 +183,7 @@ const ExploreScreen: FC<ExploreScreenProps> = ({navigation}) => {
 type BoxProps = {
   index: number;
   content: LevelOne;
-  openLevel: (level: number) => void;
+  openLevel: (level: string) => void;
 };
 
 const Box: FC<BoxProps> = ({index, content, openLevel}) => {

@@ -9,7 +9,6 @@ import React, {
 import {setAccountStatus, setAuth} from '../actions/global';
 import globalReducer from '../reducers/global';
 import {StorageGetItem} from '../../utils/storage';
-import useAuth from '../../hooks/useAuth';
 
 type InitialStateType = {
   accountStatus: AccountStatus;
@@ -22,12 +21,10 @@ type InitialStateType = {
 export enum AccountStatus {
   LOADING = 'LOADING',
   EXISITING = 'EXISITING',
-  RECOVERY = 'RECOVERY',
   NEW = 'NEW',
   ACTIVE = 'ACTIVE',
   SIGNED_UP = 'SIGNED_UP',
   LOGGED_ID = 'LOGGED_ID',
-  RETRIEVE = 'RETRIEVE',
   UPDATE = 'UPDATE',
 }
 
@@ -35,7 +32,6 @@ export enum AppState {
   SIGNUP = 'SIGNUP',
   GDRIVE = 'GDRIVE',
   ONBOARDED = 'ONBOARDED',
-  RECOVERY = 'RECOVERY',
   TESTING = 'TESTING',
 }
 
