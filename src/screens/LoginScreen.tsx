@@ -26,9 +26,12 @@ type Props = NativeStackScreenProps<AuthStackParamList, 'Login'>;
 
 const LoginScreen: FC<Props> = ({navigation}) => {
   const {state, dispatch} = useContext(GlobalContext);
-  const [success, setSuccess] = useState(false);
 
-  const loginUser = async (email: string, password: string) => {
+  const loginUser = async (
+    email: string,
+    password: string,
+    setSubmitting: (isSubmitting: boolean) => void,
+  ) => {
     try {
       const tokens = await auth(email, password, 'login');
       dispatch(setAuth({email, accessToken: tokens.accessToken}));
@@ -39,7 +42,8 @@ const LoginScreen: FC<Props> = ({navigation}) => {
         message: 'successfully logged in',
         type: 'success',
       });
-      setSuccess(true);
+      setSubmitting(false);
+      dispatch(setAccountStatus(AccountStatus.EXISITING));
     } catch (e) {
       showMessage({
         message: 'Invalid credentials',
@@ -74,11 +78,7 @@ const LoginScreen: FC<Props> = ({navigation}) => {
           validationSchema={validationSchema}
           validateOnBlur={true}
           onSubmit={async (values, {setSubmitting}) => {
-            await loginUser(values.email, values.password);
-            setSubmitting(false);
-            if (success) {
-              dispatch(setAccountStatus(AccountStatus.EXISITING));
-            }
+            await loginUser(values.email, values.password, setSubmitting);
           }}>
           {({
             handleChange,

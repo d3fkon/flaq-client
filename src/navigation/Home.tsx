@@ -80,7 +80,9 @@ const HomeStack = () => {
         tabBarStyle: {
           paddingHorizontal: 24,
           backgroundColor: Colors.background.dark,
-          paddingVertical: 12,
+          paddingTop: 12,
+          paddingBottom: 24,
+          height: 80,
           borderTopColor: Colors.background.transparent,
         },
       })}>

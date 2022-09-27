@@ -1,9 +1,16 @@
 import {useNavigation} from '@react-navigation/native';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import React, {FC} from 'react';
 import {Image, TouchableOpacity} from 'react-native';
+import {ExploreStackParamList} from '../navigation/Home';
 import {Campaign} from '../screens/LevelScreen';
 import {Colors} from '../utils/colors';
 import FlaqText from './common/flaqui/FlaqText';
+
+export type ChapterScreenProps = NativeStackScreenProps<
+  ExploreStackParamList,
+  'Chapter'
+>;
 
 const Chapter: FC<Campaign & {levelOne: string}> = ({
   title,
@@ -13,7 +20,7 @@ const Chapter: FC<Campaign & {levelOne: string}> = ({
   _id,
   levelOne,
 }) => {
-  const navigation: any = useNavigation();
+  const navigation = useNavigation<ChapterScreenProps['navigation']>();
   const getLink: NodeRequire = (icon: string) => {
     switch (icon) {
       case 'one': {

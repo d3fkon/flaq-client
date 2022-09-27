@@ -33,7 +33,9 @@ const NewsScreen = () => {
           style={globalStyles.fullWidth}>
           flaq news
         </FlaqText>
-        <ScrollView style={{flex: 1, width: '100%'}}>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          style={{flex: 1, width: '100%'}}>
           {DATA.map((content, index) => {
             return <Box key={index} index={index} content={content} />;
           })}
