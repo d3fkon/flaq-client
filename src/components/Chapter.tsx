@@ -1,9 +1,26 @@
-import React from 'react';
+import {useNavigation} from '@react-navigation/native';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import React, {FC} from 'react';
 import {Image, TouchableOpacity} from 'react-native';
+import {ExploreStackParamList} from '../navigation/Home';
+import {Campaign} from '../screens/LevelScreen';
 import {Colors} from '../utils/colors';
 import FlaqText from './common/flaqui/FlaqText';
 
-const Chapter = ({data, navigation}: {data: any; navigation: any}) => {
+export type ChapterScreenProps = NativeStackScreenProps<
+  ExploreStackParamList,
+  'Chapter'
+>;
+
+const Chapter: FC<Campaign & {levelOne: string}> = ({
+  title,
+  description1,
+  description2,
+  description3,
+  _id,
+  levelOne,
+}) => {
+  const navigation = useNavigation<ChapterScreenProps['navigation']>();
   const getLink: NodeRequire = (icon: string) => {
     switch (icon) {
       case 'one': {
@@ -23,10 +40,10 @@ const Chapter = ({data, navigation}: {data: any; navigation: any}) => {
       }
     }
   };
-  const link = getLink(data.icon);
+  const link = getLink('one');
 
   const goToChapter = () => {
-    navigation.navigate('Chapter');
+    navigation.navigate('Chapter', {campaignId: _id, level: levelOne});
   };
 
   return (
@@ -46,10 +63,10 @@ const Chapter = ({data, navigation}: {data: any; navigation: any}) => {
         style={{width: 40, height: 40, resizeMode: 'contain'}}
       />
       <FlaqText size="xs" weight="semibold" align="left" mt={12}>
-        {data.heading}
+        {title}
       </FlaqText>
       <FlaqText size="xxs" align="left" mt={6} color="light">
-        {data.subHeading}
+        {description1}
       </FlaqText>
     </TouchableOpacity>
   );

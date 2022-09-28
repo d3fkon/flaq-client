@@ -1,5 +1,11 @@
-import React, {FC} from 'react';
-import {Image, ScrollView, TouchableOpacity, View} from 'react-native';
+import React, {FC, useContext, useState} from 'react';
+import {
+  ActivityIndicator,
+  Image,
+  ScrollView,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import FlaqButton from '../components/common/flaqui/FlaqButton';
 import FlaqContainer from '../components/common/flaqui/FlaqContainer';
 import FlaqText from '../components/common/flaqui/FlaqText';
@@ -7,52 +13,131 @@ import globalStyles from '../utils/global_styles';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {Colors} from '../utils/colors';
 import Container from '../components/common/Container';
+import {useQuery} from '@tanstack/react-query';
+import {AccountStatus, GlobalContext} from '../state/contexts/GlobalContext';
+import {setAccountStatus} from '../state/actions/global';
+import {AxiosError} from 'axios';
+import useAxiosPrivate from '../hooks/useAxiosPrivate';
+import {showMessage} from 'react-native-flash-message';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {ExploreStackParamList} from '../navigation/Home';
 
-const DATA = [
-  {
-    level: 1,
-    title: 'dive into web 3',
-    subTitle: 'learn about the evolution & relevance of web3',
-  },
-  {
-    level: 2,
-    title: 'what are NFTs?',
-    subTitle: 'learn about types of NFTs and how do they work',
-  },
-];
-
-type ExploreScreenProps = {
-  navigation: any;
+export type LevelOne = {
+  _id: string;
+  title: string;
+  description: string;
 };
 
+type ExploreScreenProps = NativeStackScreenProps<
+  ExploreStackParamList,
+  'Explore'
+>;
+
 const ExploreScreen: FC<ExploreScreenProps> = ({navigation}) => {
-  const openLevel = (level: number) => {
-    navigation.navigate('Level');
+  const [lang, setLang] = useState<'eng' | 'hn'>('eng');
+  const {state, dispatch} = useContext(GlobalContext);
+  const axiosPrivate = useAxiosPrivate();
+
+  const {data, isLoading, isError, isFetching} = useQuery(
+    ['level1', lang],
+    async values => {
+      const response = await axiosPrivate.get<LevelOne[]>(
+        `/campaigns/level1?lang=${values.queryKey[1]}`,
+      );
+      return response.data;
+    },
+    {
+      onError: error => {
+        console.log('ERROR___>', error);
+        if (error instanceof AxiosError) {
+          if (error.response?.data.statusCode === 404) {
+            showMessage({
+              message: 'login again',
+              type: 'info',
+            });
+            dispatch(setAccountStatus(AccountStatus.NEW));
+          }
+        }
+      },
+    },
+  );
+
+  const openLevel = (level: string) => {
+    navigation.navigate('Level', {level});
   };
+
+  const changeLang = () => {
+    setLang(lang === 'eng' ? 'hn' : 'eng');
+  };
+
+  if (isLoading) {
+    return (
+      <FlaqContainer fullWidth={true}>
+        <View style={globalStyles.fullCenter}>
+          <ActivityIndicator />
+        </View>
+      </FlaqContainer>
+    );
+  }
+
+  if (isError) {
+    return (
+      <FlaqContainer fullWidth={true}>
+        <View style={globalStyles.fullCenter}>
+          {/* <ActivityIndicator /> */}
+          <FlaqText>there is some error fetching data.</FlaqText>
+          <TouchableOpacity onPress={() => {}}>
+            <FlaqText
+              weight="semibold"
+              style={{textDecorationLine: 'underline'}}>
+              try again?
+            </FlaqText>
+          </TouchableOpacity>
+        </View>
+      </FlaqContainer>
+    );
+  }
+  // console.log(data);
 
   return (
     <FlaqContainer fullWidth={true}>
       <Container>
-        <FlaqText
-          align="left"
-          weight="semibold"
-          mt={30}
-          mb={20}
-          size="lg"
-          style={globalStyles.fullWidth}>
-          explore flaq
-        </FlaqText>
+        <View style={[globalStyles.rowSpaceBetween, globalStyles.fullWidth]}>
+          <FlaqText align="left" weight="semibold" mt={30} mb={20} size="lg">
+            explore flaq
+          </FlaqText>
+          <TouchableOpacity onPress={changeLang}>
+            <View style={globalStyles.rowCenter}>
+              {isFetching && (
+                <ActivityIndicator
+                  size={'small'}
+                  style={{marginTop: 30, marginBottom: 20, marginRight: 10}}
+                />
+              )}
+              <FlaqText
+                mt={30}
+                mb={20}
+                color="awaiting"
+                style={{textDecorationLine: 'underline'}}
+                weight="semibold">
+                {lang === 'eng' ? 'hindi' : 'eng'}
+              </FlaqText>
+            </View>
+          </TouchableOpacity>
+        </View>
       </Container>
       <ScrollView
         horizontal={true}
+        showsHorizontalScrollIndicator={false}
         contentContainerStyle={{
-          paddingLeft: 20,
+          paddingLeft: 16,
         }}
         style={{
+          width: '100%',
           minHeight: 350,
           maxHeight: 350,
         }}>
-        {DATA.map((content, index) => {
+        {data?.map((content, index) => {
           return (
             <Box
               key={index}
@@ -97,13 +182,13 @@ const ExploreScreen: FC<ExploreScreenProps> = ({navigation}) => {
 
 type BoxProps = {
   index: number;
-  content: typeof DATA[0];
-  openLevel: (level: number) => void;
+  content: LevelOne;
+  openLevel: (level: string) => void;
 };
 
 const Box: FC<BoxProps> = ({index, content, openLevel}) => {
   return (
-    <TouchableOpacity style={{height: 350}}>
+    <View style={{height: 350}}>
       <View
         style={{
           width: 350,
@@ -128,12 +213,12 @@ const Box: FC<BoxProps> = ({index, content, openLevel}) => {
             {content.title}
           </FlaqText>
           <FlaqText size="xs" align="left" mt={14}>
-            {content.subTitle}
+            {content.description}
           </FlaqText>
           <FlaqButton
             fullWidth={false}
             mt={14}
-            onPress={() => openLevel(content.level)}>
+            onPress={() => openLevel(content._id)}>
             <FlaqText color="black" weight="semibold" size="sm">
               get started
             </FlaqText>
@@ -154,7 +239,7 @@ const Box: FC<BoxProps> = ({index, content, openLevel}) => {
           }}
         />
       </View>
-    </TouchableOpacity>
+    </View>
   );
 };
 

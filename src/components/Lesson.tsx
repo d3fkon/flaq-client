@@ -1,23 +1,24 @@
 import React, {FC} from 'react';
-import {ScrollView} from 'react-native';
-import {TouchableOpacity} from 'react-native-gesture-handler';
+import {ScrollView, TouchableOpacity} from 'react-native';
+import {Level2} from '../screens/LevelScreen';
 import globalStyles from '../utils/global_styles';
 import Chapter from './Chapter';
 import Container from './common/Container';
 import FlaqText from './common/flaqui/FlaqText';
 
-export type LessonProp = {
-  chapters: any;
-  lesson: string;
-  navigation: any;
-};
-
-const Lesson: FC<LessonProp> = ({chapters, lesson, navigation}) => {
+const Lesson: FC<Partial<Level2> & {level: string}> = ({
+  campaigns,
+  title,
+  _id,
+  level,
+}) => {
   return (
     <Container fullWidth={true} mt={30}>
       <Container style={globalStyles.rowSpaceBetween}>
-        <FlaqText align="left">{lesson}</FlaqText>
-        <TouchableOpacity>
+        <FlaqText align="left" style={{width: '75%'}}>
+          {title}
+        </FlaqText>
+        <TouchableOpacity onPress={() => {}}>
           <FlaqText size="sm" weight="semibold" color="normal">
             view all
           </FlaqText>
@@ -25,16 +26,18 @@ const Lesson: FC<LessonProp> = ({chapters, lesson, navigation}) => {
       </Container>
       <ScrollView
         horizontal={true}
+        showsHorizontalScrollIndicator={false}
         contentContainerStyle={{
-          paddingLeft: 20,
+          paddingLeft: 16,
         }}
         style={[globalStyles.fullWidth, {marginTop: 20}]}>
-        {chapters.map((chapter: any) => {
+        {campaigns?.map((chapter: any, index) => {
           return (
             <Chapter
-              key={chapter.heading}
-              data={chapter}
-              navigation={navigation}
+              key={index}
+              levelOne={level}
+              {...chapter}
+              // navigation={navigation}
             />
           );
         })}

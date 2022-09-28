@@ -6,23 +6,25 @@ import React, {
   useEffect,
   useReducer,
 } from 'react';
-import {clearData, setAccountStatus, setUser} from '../actions/global';
+import {setAccountStatus, setAuth} from '../actions/global';
 import globalReducer from '../reducers/global';
-import {StorageClearAll, StorageGetItem} from '../../utils/storage';
+import {StorageGetItem} from '../../utils/storage';
 
 type InitialStateType = {
   accountStatus: AccountStatus;
+  auth: {
+    email: string;
+    accessToken: string;
+  };
 };
 
 export enum AccountStatus {
   LOADING = 'LOADING',
   EXISITING = 'EXISITING',
-  RECOVERY = 'RECOVERY',
   NEW = 'NEW',
   ACTIVE = 'ACTIVE',
   SIGNED_UP = 'SIGNED_UP',
   LOGGED_ID = 'LOGGED_ID',
-  RETRIEVE = 'RETRIEVE',
   UPDATE = 'UPDATE',
 }
 
@@ -30,12 +32,15 @@ export enum AppState {
   SIGNUP = 'SIGNUP',
   GDRIVE = 'GDRIVE',
   ONBOARDED = 'ONBOARDED',
-  RECOVERY = 'RECOVERY',
   TESTING = 'TESTING',
 }
 
 export const initialState = {
   accountStatus: AccountStatus.LOADING,
+  auth: {
+    email: '',
+    accessToken: '',
+  },
 };
 
 export const GlobalContext = createContext<{
@@ -51,7 +56,6 @@ const GlobalProvider = ({
   updating: boolean;
 }) => {
   const [state, dispatch] = useReducer(globalReducer, initialState);
-  /** valid recover mode */
 
   const init = useCallback(async () => {
     if (updating) {
@@ -59,15 +63,13 @@ const GlobalProvider = ({
       return;
     }
     /*** GETDATA */
-    // const appstate = await StorageGetItem('appstate');
-    // const storeduser = await StorageGetItem('user');
-    // console.log('appstate', appstate);
-    // console.log('storeduser', storeduser);
-    // await StorageClearAll();
-    // await StorageSetItem('appstate', AppState.ONBOARDED);
-    /** NEW USER */
-    // await StorageClearAll();
-    // dispatch(clearData());
+    const accessToken = await StorageGetItem('x-access-token');
+    const email = await StorageGetItem('email');
+    dispatch(setAuth({email, accessToken}));
+    if (accessToken) {
+      dispatch(setAccountStatus(AccountStatus.EXISITING));
+      return;
+    }
     console.log('COMING HERE');
     dispatch(setAccountStatus(AccountStatus.NEW));
   }, [updating]);

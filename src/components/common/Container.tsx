@@ -28,7 +28,8 @@ const Container: FC<Props> = ({
 
   const container: StyleProp<ViewStyle> = {
     backgroundColor: Colors.background[background],
-    width: fullWidth ? '100%' : '90%',
+    width: '100%',
+    paddingHorizontal: fullWidth ? 0 : 16,
     alignItems: fullWidth ? 'center' : 'flex-start',
   };
 
