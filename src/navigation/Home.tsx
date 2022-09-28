@@ -86,8 +86,8 @@ const HomeStack = () => {
           borderTopColor: Colors.background.transparent,
         },
       })}>
-      <TabStack.Screen name="Home" component={HomeScreen} />
-      <TabStack.Screen name="ExploreStack" component={ExploreScreenStack} />
+      <TabStack.Screen name="Home" component={ExploreScreenStack} />
+      {/* <TabStack.Screen name="ExploreStack" component={ExploreScreenStack} /> */}
       <TabStack.Screen name="News" component={NewsScreen} />
     </TabStack.Navigator>
   );

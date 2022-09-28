@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {Image, ScrollView, TouchableOpacity, View} from 'react-native';
 import FlaqButton from '../components/common/flaqui/FlaqButton';
 import FlaqContainer from '../components/common/flaqui/FlaqContainer';
@@ -6,6 +6,11 @@ import FlaqText from '../components/common/flaqui/FlaqText';
 import globalStyles from '../utils/global_styles';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {Colors} from '../utils/colors';
+import {logout} from '../apis/query';
+import {StorageClearAll} from '../utils/storage';
+import {AccountStatus, GlobalContext} from '../state/contexts/GlobalContext';
+import {setAccountStatus} from '../state/actions/global';
+import {showMessage} from 'react-native-flash-message';
 
 const DATA = [
   {
@@ -21,18 +26,38 @@ const DATA = [
 ];
 
 const NewsScreen = () => {
+  const {state, dispatch} = useContext(GlobalContext);
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+      await StorageClearAll();
+      dispatch(setAccountStatus(AccountStatus.NEW));
+    } catch (e) {
+      showMessage({
+        message: 'error logging out',
+        type: 'danger',
+      });
+    }
+  };
+
   return (
     <>
       <FlaqContainer>
-        <FlaqText
-          align="left"
-          weight="semibold"
-          mt={30}
-          mb={20}
-          size="lg"
-          style={globalStyles.fullWidth}>
-          flaq news
-        </FlaqText>
+        <View style={[globalStyles.fullWidth, globalStyles.rowSpaceBetween]}>
+          <FlaqText
+            align="left"
+            weight="semibold"
+            mt={30}
+            mb={20}
+            size="lg"
+            style={globalStyles.fullWidth}>
+            flaq news
+          </FlaqText>
+          <TouchableOpacity onPress={() => handleLogout()}>
+            <FlaqText color="black">logout</FlaqText>
+          </TouchableOpacity>
+        </View>
         <ScrollView
           showsVerticalScrollIndicator={false}
           style={{flex: 1, width: '100%'}}>

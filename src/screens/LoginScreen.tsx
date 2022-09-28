@@ -19,7 +19,7 @@ import {AuthStackParamList} from '../navigation/Auth';
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().required().email("well that's not an email"),
-  password: Yup.string().required().min(8, 'weak password'),
+  // password: Yup.string().required().min(8, 'weak password'),
 });
 
 type Props = NativeStackScreenProps<AuthStackParamList, 'Login'>;
