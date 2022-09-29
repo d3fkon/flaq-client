@@ -99,7 +99,10 @@ const ExploreScreen: FC<ExploreScreenProps> = ({navigation}) => {
               explore flaq
             </FlaqText>
             <TouchableOpacity onPress={changeLang}>
-              <View style={globalStyles.rowCenter}>
+              <View
+                accessible={true}
+                accessibilityLabel="loading"
+                style={globalStyles.rowCenter}>
                 {isFetching && (
                   <ActivityIndicator
                     size={'small'}
@@ -107,6 +110,10 @@ const ExploreScreen: FC<ExploreScreenProps> = ({navigation}) => {
                   />
                 )}
                 <FlaqText
+                  accessible={true}
+                  accessibilityLabel={`change language to ${
+                    lang === 'eng' ? 'hindi' : 'eng'
+                  }`}
                   mt={30}
                   mb={20}
                   color="awaiting"
@@ -130,6 +137,9 @@ const ExploreScreen: FC<ExploreScreenProps> = ({navigation}) => {
             questions?
           </FlaqText>
           <ScrollView
+            accessibilityRole="adjustable"
+            accessible={true}
+            accessibilityLabel="frequently asked questions"
             showsVerticalScrollIndicator={false}
             style={{
               width: '100%',
@@ -231,6 +241,9 @@ const ExploreScreen: FC<ExploreScreenProps> = ({navigation}) => {
         </View>
       </Container>
       <ScrollView
+        accessibilityRole="adjustable"
+        accessible={true}
+        accessibilityLabel="level 1"
         horizontal={true}
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={{
@@ -252,7 +265,9 @@ const ExploreScreen: FC<ExploreScreenProps> = ({navigation}) => {
           );
         })}
         {data.length === 0 && (
-          <FlaqText align="center">hindi content coming soon</FlaqText>
+          <FlaqText align="center">
+            {lang === 'eng' ? 'no content' : 'hindi content coming soon'}
+          </FlaqText>
         )}
       </ScrollView>
       <Container>
@@ -264,6 +279,9 @@ const ExploreScreen: FC<ExploreScreenProps> = ({navigation}) => {
           questions?
         </FlaqText>
         <ScrollView
+          accessibilityRole="adjustable"
+          accessible={true}
+          accessibilityLabel="frequently asked questions"
           showsVerticalScrollIndicator={false}
           style={{
             width: '100%',
@@ -286,6 +304,8 @@ const Box: FC<BoxProps> = ({index, content, openLevel}) => {
   return (
     <View style={{height: 350}}>
       <View
+        accessible={true}
+        accessibilityLabel={content.title}
         style={{
           width: 350,
           height: 350,
@@ -312,6 +332,7 @@ const Box: FC<BoxProps> = ({index, content, openLevel}) => {
             {content.description}
           </FlaqText>
           <FlaqButton
+            accessibilityLabel="click get started"
             fullWidth={false}
             mt={14}
             onPress={() => openLevel(content._id)}>

@@ -28,6 +28,8 @@ const Article = ({data}: {data: any}) => {
 
   return (
     <TouchableOpacity
+      accessible={true}
+      accessibilityLabel={`open article with heading ${data.heading}`}
       style={{
         backgroundColor: Colors.background.black,
         padding: 16,

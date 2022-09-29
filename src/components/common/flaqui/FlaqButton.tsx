@@ -51,6 +51,7 @@ const FlaqButton: FC<ButtonProps> = ({
 
   return (
     <TouchableOpacity
+      accessible={true}
       style={[
         variantStyle(),
         fullWidthStyle(),

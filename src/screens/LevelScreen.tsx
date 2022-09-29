@@ -141,6 +141,8 @@ const LevelScreen = () => {
   return (
     <FlaqContainer fullWidth={true}>
       <View
+        accessible={true}
+        accessibilityLabel="level 2"
         style={{
           backgroundColor: Colors.background.purple,
           width: '100%',
@@ -173,7 +175,11 @@ const LevelScreen = () => {
           </FlaqText>
         </Container>
       </View>
-      <ScrollView style={globalStyles.fullWidth}>
+      <ScrollView
+        accessibilityRole="adjustable"
+        accessible={true}
+        accessibilityLabel="level 2 cards"
+        style={globalStyles.fullWidth}>
         {data!.level2?.map(lesson => {
           return (
             <Lesson

@@ -48,6 +48,8 @@ const Chapter: FC<Campaign & {levelOne: string}> = ({
 
   return (
     <TouchableOpacity
+      accessible={true}
+      accessibilityLabel={`open level 3 with title ${title}`}
       onPress={goToChapter}
       style={{
         backgroundColor: Colors.background.black,

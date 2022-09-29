@@ -84,7 +84,10 @@ const ChapterScreen = () => {
   if (isError) {
     return (
       <FlaqContainer fullWidth={true}>
-        <View style={globalStyles.fullCenter}>
+        <View
+          accessible={true}
+          accessibilityLabel="error fetching data"
+          style={globalStyles.fullCenter}>
           {/* <ActivityIndicator /> */}
           <FlaqText>there is some error fetching data.</FlaqText>
           <TouchableOpacity onPress={() => {}}>
@@ -113,6 +116,9 @@ const ChapterScreen = () => {
         data.contentType === 'Video') &&
         data?.videos?.length > 0 && (
           <ScrollView
+            accessibilityRole="adjustable"
+            accessible={true}
+            accessibilityLabel="level 3"
             horizontal={true}
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={{
@@ -144,7 +150,7 @@ const ChapterScreen = () => {
                       onChangeState={onStateChange}
                     />
                     <FlaqText align="left" size="xs" mt={4} color="light">
-                      {video.desc}
+                      {video.title}
                     </FlaqText>
                   </View>
                   <FlaqText
@@ -155,7 +161,7 @@ const ChapterScreen = () => {
                     }}
                     align="left"
                     mt={16}>
-                    {video.title}
+                    {video.desc}
                   </FlaqText>
                 </View>
               );
@@ -173,6 +179,9 @@ const ChapterScreen = () => {
               </FlaqText>
             </Container>
             <ScrollView
+              accessibilityRole="adjustable"
+              accessible={true}
+              accessibilityLabel="articles cards"
               horizontal={true}
               showsHorizontalScrollIndicator={false}
               contentContainerStyle={{
