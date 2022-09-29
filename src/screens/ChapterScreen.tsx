@@ -169,8 +169,7 @@ const ChapterScreen = () => {
           <>
             <Container style={{marginTop: 12}}>
               <FlaqText align="left" size="sm">
-                here’s a mix of articles and twitter threads explaining the
-                importance of ipfs
+                here’s a mix of articles and twitter threads
               </FlaqText>
             </Container>
             <ScrollView

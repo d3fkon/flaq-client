@@ -41,6 +41,9 @@ const Lesson: FC<Partial<Level2> & {level: string}> = ({
             />
           );
         })}
+        {(!campaigns || campaigns.length === 0) && (
+          <FlaqText>comming soon...</FlaqText>
+        )}
       </ScrollView>
     </Container>
   );

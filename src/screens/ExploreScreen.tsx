@@ -21,6 +21,7 @@ import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import {showMessage} from 'react-native-flash-message';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {ExploreStackParamList} from '../navigation/Home';
+import FlaqAccordian from '../components/common/flaqui/FlaqAccordian';
 
 export type LevelOne = {
   _id: string;
@@ -70,12 +71,73 @@ const ExploreScreen: FC<ExploreScreenProps> = ({navigation}) => {
     setLang(lang === 'eng' ? 'hn' : 'eng');
   };
 
+  const questions = [
+    {
+      title: 'Are each of the courses constrained by time?',
+      content:
+        'No, you can read any part of the course and complete whichever course you choose to, at your own pace.',
+    },
+    {
+      title: 'Do I have to pay to access the content?',
+      content:
+        'No, all of our educative pieces are free of cost and at no point will you be asked to pay.',
+    },
+    {
+      title:
+        'Can I reach out to the team in case of any content-related doubts for guidance?',
+      content:
+        "yes, you can reach out to us through our contact us page and we're here to guide you!",
+    },
+  ];
+
   if (isLoading) {
     return (
       <FlaqContainer fullWidth={true}>
+        <Container>
+          <View style={[globalStyles.rowSpaceBetween, globalStyles.fullWidth]}>
+            <FlaqText align="left" weight="semibold" mt={30} mb={20} size="lg">
+              explore flaq
+            </FlaqText>
+            <TouchableOpacity onPress={changeLang}>
+              <View style={globalStyles.rowCenter}>
+                {isFetching && (
+                  <ActivityIndicator
+                    size={'small'}
+                    style={{marginTop: 30, marginBottom: 20, marginRight: 10}}
+                  />
+                )}
+                <FlaqText
+                  mt={30}
+                  mb={20}
+                  color="awaiting"
+                  style={{textDecorationLine: 'underline'}}
+                  weight="semibold">
+                  {lang === 'eng' ? 'hindi' : 'eng'}
+                </FlaqText>
+              </View>
+            </TouchableOpacity>
+          </View>
+        </Container>
         <View style={globalStyles.fullCenter}>
           <ActivityIndicator />
         </View>
+        <Container>
+          <FlaqText
+            align="left"
+            weight="semibold"
+            size="lg"
+            style={[globalStyles.fullWidth, {marginTop: 30}]}>
+            questions?
+          </FlaqText>
+          <ScrollView
+            showsVerticalScrollIndicator={false}
+            style={{
+              width: '100%',
+              paddingVertical: 12,
+            }}>
+            <FlaqAccordian sections={questions} />
+          </ScrollView>
+        </Container>
       </FlaqContainer>
     );
   }
@@ -83,6 +145,31 @@ const ExploreScreen: FC<ExploreScreenProps> = ({navigation}) => {
   if (isError) {
     return (
       <FlaqContainer fullWidth={true}>
+        <Container>
+          <View style={[globalStyles.rowSpaceBetween, globalStyles.fullWidth]}>
+            <FlaqText align="left" weight="semibold" mt={30} mb={20} size="lg">
+              explore flaq
+            </FlaqText>
+            <TouchableOpacity onPress={changeLang}>
+              <View style={globalStyles.rowCenter}>
+                {isFetching && (
+                  <ActivityIndicator
+                    size={'small'}
+                    style={{marginTop: 30, marginBottom: 20, marginRight: 10}}
+                  />
+                )}
+                <FlaqText
+                  mt={30}
+                  mb={20}
+                  color="awaiting"
+                  style={{textDecorationLine: 'underline'}}
+                  weight="semibold">
+                  {lang === 'eng' ? 'hindi' : 'eng'}
+                </FlaqText>
+              </View>
+            </TouchableOpacity>
+          </View>
+        </Container>
         <View style={globalStyles.fullCenter}>
           {/* <ActivityIndicator /> */}
           <FlaqText>there is some error fetching data.</FlaqText>
@@ -94,6 +181,23 @@ const ExploreScreen: FC<ExploreScreenProps> = ({navigation}) => {
             </FlaqText>
           </TouchableOpacity>
         </View>
+        <Container>
+          <FlaqText
+            align="left"
+            weight="semibold"
+            size="lg"
+            style={[globalStyles.fullWidth, {marginTop: 30}]}>
+            questions?
+          </FlaqText>
+          <ScrollView
+            showsVerticalScrollIndicator={false}
+            style={{
+              width: '100%',
+              paddingVertical: 12,
+            }}>
+            <FlaqAccordian sections={questions} />
+          </ScrollView>
+        </Container>
       </FlaqContainer>
     );
   }
@@ -147,6 +251,9 @@ const ExploreScreen: FC<ExploreScreenProps> = ({navigation}) => {
             />
           );
         })}
+        {data.length === 0 && (
+          <FlaqText align="center">hindi content coming soon</FlaqText>
+        )}
       </ScrollView>
       <Container>
         <FlaqText
@@ -156,25 +263,14 @@ const ExploreScreen: FC<ExploreScreenProps> = ({navigation}) => {
           style={[globalStyles.fullWidth, {marginTop: 30}]}>
           questions?
         </FlaqText>
-        <View
-          style={[
-            globalStyles.fullWidth,
-            {alignItems: 'flex-start', marginTop: 20},
-          ]}>
-          <FlaqButton
-            variant="light"
-            fullWidth={false}
-            style={globalStyles.rowCenter}>
-            <FlaqText weight="semibold" size="sm" style={{marginRight: 10}}>
-              faqs
-            </FlaqText>
-            <MaterialIcons
-              name="arrow-right-alt"
-              size={20}
-              color={Colors.text.white}
-            />
-          </FlaqButton>
-        </View>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          style={{
+            width: '100%',
+            paddingVertical: 12,
+          }}>
+          <FlaqAccordian sections={questions} />
+        </ScrollView>
       </Container>
     </FlaqContainer>
   );

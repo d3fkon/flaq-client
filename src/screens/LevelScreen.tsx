@@ -185,6 +185,9 @@ const LevelScreen = () => {
             />
           );
         })}
+        {data && (!data.level2 || data!.level2?.length === 0) && (
+          <FlaqText>coming soon...</FlaqText>
+        )}
       </ScrollView>
     </FlaqContainer>
   );

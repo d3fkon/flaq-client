@@ -1,3 +1,5 @@
+import {AxiosError} from 'axios';
+import {showMessage} from 'react-native-flash-message';
 import axios from './axios';
 
 export const auth = async (
@@ -5,19 +7,28 @@ export const auth = async (
   password: string,
   type: 'login' | 'signup',
 ) => {
-  const response = await axios.post('/auth/' + type, {
-    email,
-    password,
-    deviceToken: 'no-token',
-  });
-  return response.data;
+  try {
+    const response = await axios.post('/auth/' + type, {
+      email,
+      password,
+      deviceToken: 'no-token',
+    });
+    return response.data;
+  } catch (e: any) {
+    showMessage({
+      message: e.message,
+      type: 'danger',
+    });
+  }
 };
 
 export const sendOtp = async (email: string) => {
-  const response = await axios.post('/auth/email-otp/sendOtp', {
-    email,
-  });
-  return response.data;
+  try {
+    const response = await axios.post('/auth/email-otp/sendOtp', {
+      email,
+    });
+    return response.data;
+  } catch (e) {}
 };
 
 export const verifyOtp = async (email: string, otp: string) => {

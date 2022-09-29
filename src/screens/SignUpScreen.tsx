@@ -33,6 +33,12 @@ const SignUpScreen: FC<Props> = ({navigation}) => {
 
   const signUp = async (email: string, password: string) => {
     try {
+      if (email.length < 4) {
+        showMessage({
+          message: 'invalid email',
+          type: 'info',
+        });
+      }
       const tokens = await auth(email, password, 'signup');
       dispatch(setAuth({email, accessToken: tokens.accessToken}));
       await StorageSetItem('x-access-token', tokens.accessToken);
@@ -50,8 +56,8 @@ const SignUpScreen: FC<Props> = ({navigation}) => {
   };
 
   const handleSendOtp = async (email: string) => {
-    const response = await sendOtp(email);
     try {
+      const response = await sendOtp(email);
       showMessage({
         message: 'otp sent to the mail',
         type: 'success',
