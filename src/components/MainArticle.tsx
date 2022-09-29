@@ -5,8 +5,19 @@ import FlaqText from './common/flaqui/FlaqText';
 import LinearGradient from 'react-native-linear-gradient';
 import {Article} from '../screens/LevelScreen';
 import {showMessage} from 'react-native-flash-message';
+import {CompositeScreenProps, useNavigation} from '@react-navigation/native';
+import {ExploreStackParamList, TabParamList} from '../navigation/Home';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
+
+export type ChapterScreenProps = CompositeScreenProps<
+  NativeStackScreenProps<ExploreStackParamList, 'Chapter'>,
+  BottomTabScreenProps<TabParamList>
+>;
 
 const MainArticle = ({data}: {data: Article}) => {
+  const navigation = useNavigation<ChapterScreenProps['navigation']>();
+
   const openLink = () => {
     const link = data.url;
     Linking.canOpenURL(link).then(supported => {
@@ -22,8 +33,14 @@ const MainArticle = ({data}: {data: Article}) => {
       }
     });
   };
+
+  const openWebView = () => {
+    navigation.navigate('WebView', {uri: data.url});
+  };
+
   return (
-    <TouchableOpacity onPress={openLink}>
+    // <TouchableOpacity onPress={openLink}>
+    <TouchableOpacity onPress={openWebView}>
       <LinearGradient
         start={{x: 0.0, y: 0.25}}
         end={{x: 0.5, y: 1.0}}

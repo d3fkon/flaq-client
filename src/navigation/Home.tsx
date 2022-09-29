@@ -13,11 +13,13 @@ import NewsScreen from '../screens/NewsScreen';
 import LevelScreen from '../screens/LevelScreen';
 import ChapterScreen from '../screens/ChapterScreen';
 import {RouteProp} from '@react-navigation/native';
+import WebViewScreen from '../screens/WebViewScreen';
 
 export type ExploreStackParamList = {
   Level: {level: string} | undefined;
   Explore: undefined;
   Chapter: {campaignId: string; level: string};
+  WebView: {uri: string};
 };
 
 export type TabParamList = {
@@ -59,6 +61,7 @@ const HomeStack = () => {
         <ExploreStack.Screen name="Explore" component={ExploreScreen} />
         <ExploreStack.Screen name="Level" component={LevelScreen} />
         <ExploreStack.Screen name="Chapter" component={ChapterScreen} />
+        <ExploreStack.Screen name="WebView" component={WebViewScreen} />
       </ExploreStack.Navigator>
     );
   };

@@ -285,6 +285,7 @@ const ExploreScreen: FC<ExploreScreenProps> = ({navigation}) => {
           showsVerticalScrollIndicator={false}
           style={{
             width: '100%',
+            height: 230,
             paddingVertical: 12,
           }}>
           <FlaqAccordian sections={questions} />
