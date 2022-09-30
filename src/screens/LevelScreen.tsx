@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {
   ActivityIndicator,
   Image,
@@ -24,6 +24,8 @@ import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {ExploreStackParamList, TabParamList} from '../navigation/Home';
+import {AccountStatus, GlobalContext} from '../state/contexts/GlobalContext';
+import {setAccountStatus} from '../state/actions/global';
 
 export interface Video {
   url: string;
@@ -53,6 +55,7 @@ export interface Campaign {
   quizzes: any[];
   createdAt: Date;
   updatedAt: Date;
+  walletAddress: string;
   __v: number;
 }
 
@@ -87,6 +90,7 @@ export type LevelScreenProps = CompositeScreenProps<
 >;
 
 const LevelScreen = () => {
+  const {state, dispatch} = useContext(GlobalContext);
   const navigation = useNavigation<LevelScreenProps['navigation']>();
   const {params} = useRoute<LevelScreenProps['route']>();
   const axios = useAxiosPrivate();
@@ -126,7 +130,10 @@ const LevelScreen = () => {
         <View style={globalStyles.fullCenter}>
           {/* <ActivityIndicator /> */}
           <FlaqText>there is some error fetching data.</FlaqText>
-          <TouchableOpacity onPress={() => {}}>
+          <TouchableOpacity
+            onPress={() => {
+              dispatch(setAccountStatus(AccountStatus.NEW));
+            }}>
             <FlaqText
               weight="semibold"
               style={{textDecorationLine: 'underline'}}>
@@ -180,10 +187,11 @@ const LevelScreen = () => {
         accessible={true}
         accessibilityLabel="level 2 cards"
         style={globalStyles.fullWidth}>
-        {data!.level2?.map(lesson => {
+        {data!.level2?.map((lesson, index) => {
           return (
             <Lesson
               // navigation={navigation}
+              levelId={index}
               level={query}
               key={lesson.title}
               campaigns={lesson.campaigns}

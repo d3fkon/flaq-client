@@ -90,7 +90,10 @@ const HomeScreen = () => {
         <View style={globalStyles.fullCenter}>
           {/* <ActivityIndicator /> */}
           <FlaqText>there is some error fetching data.</FlaqText>
-          <TouchableOpacity onPress={() => {}}>
+          <TouchableOpacity
+            onPress={() => {
+              dispatch(setAccountStatus(AccountStatus.NEW));
+            }}>
             <FlaqText
               weight="semibold"
               style={{textDecorationLine: 'underline'}}>
@@ -139,6 +142,7 @@ const HomeScreen = () => {
         {data?.level2.map((lesson, index) => {
           return (
             <Lesson
+              levelId={index}
               level={query}
               key={index}
               campaigns={lesson.campaigns}

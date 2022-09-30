@@ -4,12 +4,14 @@ import {
   ScrollView,
   ActivityIndicator,
 } from 'react-native';
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useContext, useState} from 'react';
 import FlaqContainer from '../components/common/flaqui/FlaqContainer';
 import {Colors} from '../utils/colors';
 import FlaqText from '../components/common/flaqui/FlaqText';
 import globalStyles from '../utils/global_styles';
 import Fontisto from 'react-native-vector-icons/Fontisto';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+
 import Container from '../components/common/Container';
 import {AxiosError} from 'axios';
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
@@ -25,6 +27,8 @@ import MainArticle from '../components/MainArticle';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {ExploreStackParamList, TabParamList} from '../navigation/Home';
 import {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
+import {AccountStatus, GlobalContext} from '../state/contexts/GlobalContext';
+import {setAccountStatus} from '../state/actions/global';
 
 export type ChapterScreenProps = CompositeScreenProps<
   NativeStackScreenProps<ExploreStackParamList, 'Chapter'>,
@@ -32,9 +36,10 @@ export type ChapterScreenProps = CompositeScreenProps<
 >;
 
 const ChapterScreen = () => {
+  const {state: gloabalState, dispatch} = useContext(GlobalContext);
   const navigation = useNavigation<ChapterScreenProps['navigation']>();
   const {
-    params: {campaignId, level},
+    params: {campaignId, level, levelId, walletAddress},
   } = useRoute<ChapterScreenProps['route']>();
 
   const [playing, setPlaying] = useState(false);
@@ -46,9 +51,11 @@ const ChapterScreen = () => {
       const response = await axiosPrivate.get<Level>(
         `/campaigns/level1/${level}`,
       );
-      return response.data?.level2[0]?.campaigns?.find(
-        _campaign => _campaign._id === campaignId,
-      ) as Campaign;
+      return (
+        (response.data?.level2[levelId]?.campaigns?.find(
+          _campaign => _campaign._id === campaignId,
+        ) as Campaign) ?? []
+      );
     },
     {
       onError: (error: AxiosError) => {
@@ -90,7 +97,10 @@ const ChapterScreen = () => {
           style={globalStyles.fullCenter}>
           {/* <ActivityIndicator /> */}
           <FlaqText>there is some error fetching data.</FlaqText>
-          <TouchableOpacity onPress={() => {}}>
+          <TouchableOpacity
+            onPress={() => {
+              dispatch(setAccountStatus(AccountStatus.NEW));
+            }}>
             <FlaqText
               weight="semibold"
               style={{textDecorationLine: 'underline'}}>
@@ -105,12 +115,32 @@ const ChapterScreen = () => {
   return (
     <FlaqContainer fullWidth={true}>
       <Container>
-        <TouchableOpacity onPress={goBack} style={{marginTop: 20}}>
-          <Fontisto name="arrow-left-l" color={Colors.text.white} size={20} />
-        </TouchableOpacity>
+        <View style={[globalStyles.rowSpaceBetween, globalStyles.fullWidth]}>
+          <TouchableOpacity onPress={goBack} style={{marginTop: 20}}>
+            <Fontisto name="arrow-left-l" color={Colors.text.white} size={20} />
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('Tip', {walletAddress})}
+            style={[
+              globalStyles.rowCenter,
+              {
+                marginTop: 20,
+                backgroundColor: Colors.background.normal,
+                paddingVertical: 4,
+                paddingHorizontal: 8,
+                borderRadius: 20,
+              },
+            ]}>
+            <AntDesign name="hearto" color={Colors.text.pink} size={20} />
+            <FlaqText size="xs" style={{marginLeft: 8}} color="pink">
+              Tip
+            </FlaqText>
+          </TouchableOpacity>
+        </View>
         {/* <FlaqText align="left" weight="semibold" mt={10}>
           {data?.title}
         </FlaqText> */}
+        {/* <FlaqText>hello</FlaqText> */}
       </Container>
       {(data.contentType === 'VideoAndArticles' ||
         data.contentType === 'Video') &&

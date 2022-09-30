@@ -24,6 +24,7 @@ let theme = {
     link: '#0066cc',
     awaiting: '#d27d00',
     purple: '#6F6CD9',
+    pink: '#FFD7CE',
   },
 };
 // if (colorScheme === 'dark') {

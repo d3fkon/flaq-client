@@ -183,7 +183,10 @@ const ExploreScreen: FC<ExploreScreenProps> = ({navigation}) => {
         <View style={globalStyles.fullCenter}>
           {/* <ActivityIndicator /> */}
           <FlaqText>there is some error fetching data.</FlaqText>
-          <TouchableOpacity onPress={() => {}}>
+          <TouchableOpacity
+            onPress={() => {
+              dispatch(setAccountStatus(AccountStatus.NEW));
+            }}>
             <FlaqText
               weight="semibold"
               style={{textDecorationLine: 'underline'}}>

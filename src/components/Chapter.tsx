@@ -12,13 +12,15 @@ export type ChapterScreenProps = NativeStackScreenProps<
   'Chapter'
 >;
 
-const Chapter: FC<Campaign & {levelOne: string}> = ({
+const Chapter: FC<Campaign & {levelOne: string; levelId: number}> = ({
   title,
   description1,
   description2,
   description3,
+  walletAddress,
   _id,
   levelOne,
+  levelId,
 }) => {
   const navigation = useNavigation<ChapterScreenProps['navigation']>();
   const getLink: NodeRequire = (icon: string) => {
@@ -43,7 +45,12 @@ const Chapter: FC<Campaign & {levelOne: string}> = ({
   const link = getLink('one');
 
   const goToChapter = () => {
-    navigation.navigate('Chapter', {campaignId: _id, level: levelOne});
+    navigation.navigate('Chapter', {
+      campaignId: _id,
+      level: levelOne,
+      levelId,
+      walletAddress,
+    });
   };
 
   return (

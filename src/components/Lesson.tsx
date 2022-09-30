@@ -6,7 +6,8 @@ import Chapter from './Chapter';
 import Container from './common/Container';
 import FlaqText from './common/flaqui/FlaqText';
 
-const Lesson: FC<Partial<Level2> & {level: string}> = ({
+const Lesson: FC<Partial<Level2> & {level: string; levelId: number}> = ({
+  levelId,
   campaigns,
   title,
   _id,
@@ -34,6 +35,7 @@ const Lesson: FC<Partial<Level2> & {level: string}> = ({
         {campaigns?.map((chapter: any, index) => {
           return (
             <Chapter
+              levelId={levelId}
               key={index}
               levelOne={level}
               {...chapter}
