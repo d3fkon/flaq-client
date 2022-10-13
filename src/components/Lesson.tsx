@@ -31,7 +31,7 @@ const Lesson: FC<Partial<Level2> & {level: string; levelId: number}> = ({
         contentContainerStyle={{
           paddingLeft: 16,
         }}
-        style={[globalStyles.fullWidth, {marginTop: 20}]}>
+        style={[globalStyles.fullWidth, {marginTop: 20, flexDirection: 'row'}]}>
         {campaigns?.map((chapter: any, index) => {
           return (
             <Chapter

@@ -12,7 +12,6 @@ import FlaqText from '../components/common/flaqui/FlaqText';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import {Colors} from '../utils/colors';
 import globalStyles from '../utils/global_styles';
-import Lesson from '../components/Lesson';
 import Container from '../components/common/Container';
 import {
   CompositeScreenProps,
@@ -26,6 +25,7 @@ import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {ExploreStackParamList, TabParamList} from '../navigation/Home';
 import {AccountStatus, GlobalContext} from '../state/contexts/GlobalContext';
 import {setAccountStatus} from '../state/actions/global';
+import Chapter from '../components/Chapter';
 
 export interface Video {
   url: string;
@@ -186,17 +186,27 @@ const LevelScreen = () => {
         accessibilityRole="adjustable"
         accessible={true}
         accessibilityLabel="level 2 cards"
-        style={globalStyles.fullWidth}>
+        contentContainerStyle={{
+          flexDirection: 'row',
+          flexWrap: 'wrap',
+          padding: 16,
+          width: '100%',
+        }}>
         {data!.level2?.map((lesson, index) => {
           return (
-            <Lesson
-              // navigation={navigation}
-              levelId={index}
-              level={query}
-              key={lesson.title}
-              campaigns={lesson.campaigns}
-              title={lesson.title}
-            />
+            <>
+              {lesson.campaigns.map((chapter, idx) => {
+                return (
+                  <Chapter
+                    levelId={index}
+                    index={idx}
+                    key={`lesson._id${index}`}
+                    levelOne={query}
+                    {...chapter}
+                  />
+                );
+              })}
+            </>
           );
         })}
         {data && (!data.level2 || data!.level2?.length === 0) && (

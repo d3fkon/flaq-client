@@ -71,7 +71,7 @@ const ExploreScreen: FC<ExploreScreenProps> = ({navigation}) => {
     setLang(lang === 'eng' ? 'hn' : 'eng');
   };
 
-  const questions = [
+  const englishQuestions = [
     {
       title: 'Are each of the courses constrained by time?',
       content:
@@ -90,13 +90,32 @@ const ExploreScreen: FC<ExploreScreenProps> = ({navigation}) => {
     },
   ];
 
+  const hindiQuestions = [
+    {
+      title: 'क्या प्रत्येक पाठ्यक्रम समय से विवश है?',
+      content:
+        'नहीं, आप पाठ्यक्रम के किसी भी भाग को पढ़ सकते हैं और अपनी गति से जो भी पाठ्यक्रम चुनते हैं उसे पूरा कर सकते हैं।',
+    },
+    {
+      title: 'क्या मुझे सामग्री तक पहुंचने के लिए भुगतान करना होगा?',
+      content:
+        'नहीं, हमारे सभी शिक्षाप्रद अंश निःशुल्क हैं और आपको किसी भी समय भुगतान करने के लिए नहीं कहा जाएगा।',
+    },
+    {
+      title:
+        'क्या मैं मार्गदर्शन के लिए सामग्री से संबंधित किसी भी संदेह के मामले में टीम से संपर्क कर सकता हूं?',
+      content:
+        'हाँ, आप हमसे संपर्क करें पृष्ठ के माध्यम से हमसे संपर्क कर सकते हैं और हम आपका मार्गदर्शन करने के लिए यहां हैं!',
+    },
+  ];
+
   if (isLoading) {
     return (
       <FlaqContainer fullWidth={true}>
         <Container>
           <View style={[globalStyles.rowSpaceBetween, globalStyles.fullWidth]}>
             <FlaqText align="left" weight="semibold" mt={30} mb={20} size="lg">
-              explore flaq
+              {lang === 'eng' ? 'explore flaq' : 'Flaq का अन्वेषण करें'}
             </FlaqText>
             <TouchableOpacity onPress={changeLang}>
               <View
@@ -134,7 +153,7 @@ const ExploreScreen: FC<ExploreScreenProps> = ({navigation}) => {
             weight="semibold"
             size="lg"
             style={[globalStyles.fullWidth, {marginTop: 30}]}>
-            questions?
+            {lang === 'eng' ? 'questions?' : 'सवाल?'}
           </FlaqText>
           <ScrollView
             accessibilityRole="adjustable"
@@ -145,7 +164,9 @@ const ExploreScreen: FC<ExploreScreenProps> = ({navigation}) => {
               width: '100%',
               paddingVertical: 12,
             }}>
-            <FlaqAccordian sections={questions} />
+            <FlaqAccordian
+              sections={lang === 'eng' ? englishQuestions : hindiQuestions}
+            />
           </ScrollView>
         </Container>
       </FlaqContainer>
@@ -158,7 +179,7 @@ const ExploreScreen: FC<ExploreScreenProps> = ({navigation}) => {
         <Container>
           <View style={[globalStyles.rowSpaceBetween, globalStyles.fullWidth]}>
             <FlaqText align="left" weight="semibold" mt={30} mb={20} size="lg">
-              explore flaq
+              {lang === 'eng' ? 'explore flaq' : 'Flaq का अन्वेषण करें'}
             </FlaqText>
             <TouchableOpacity onPress={changeLang}>
               <View style={globalStyles.rowCenter}>
@@ -200,7 +221,7 @@ const ExploreScreen: FC<ExploreScreenProps> = ({navigation}) => {
             weight="semibold"
             size="lg"
             style={[globalStyles.fullWidth, {marginTop: 30}]}>
-            questions?
+            {lang === 'eng' ? 'questions?' : 'सवाल?'}
           </FlaqText>
           <ScrollView
             showsVerticalScrollIndicator={false}
@@ -208,7 +229,9 @@ const ExploreScreen: FC<ExploreScreenProps> = ({navigation}) => {
               width: '100%',
               paddingVertical: 12,
             }}>
-            <FlaqAccordian sections={questions} />
+            <FlaqAccordian
+              sections={lang === 'eng' ? englishQuestions : hindiQuestions}
+            />
           </ScrollView>
         </Container>
       </FlaqContainer>
@@ -221,7 +244,7 @@ const ExploreScreen: FC<ExploreScreenProps> = ({navigation}) => {
       <Container>
         <View style={[globalStyles.rowSpaceBetween, globalStyles.fullWidth]}>
           <FlaqText align="left" weight="semibold" mt={30} mb={20} size="lg">
-            explore flaq
+            {lang === 'eng' ? 'explore flaq' : 'Flaq का अन्वेषण करें'}
           </FlaqText>
           <TouchableOpacity onPress={changeLang}>
             <View style={globalStyles.rowCenter}>
@@ -260,6 +283,7 @@ const ExploreScreen: FC<ExploreScreenProps> = ({navigation}) => {
         {data?.map((content, index) => {
           return (
             <Box
+              lang={lang}
               key={index}
               index={index}
               content={content}
@@ -279,7 +303,7 @@ const ExploreScreen: FC<ExploreScreenProps> = ({navigation}) => {
           weight="semibold"
           size="lg"
           style={[globalStyles.fullWidth, {marginTop: 30}]}>
-          questions?
+          {lang === 'eng' ? 'questions?' : 'सवाल?'}
         </FlaqText>
         <ScrollView
           accessibilityRole="adjustable"
@@ -291,7 +315,9 @@ const ExploreScreen: FC<ExploreScreenProps> = ({navigation}) => {
             height: 230,
             paddingVertical: 12,
           }}>
-          <FlaqAccordian sections={questions} />
+          <FlaqAccordian
+            sections={lang === 'eng' ? englishQuestions : hindiQuestions}
+          />
         </ScrollView>
       </Container>
     </FlaqContainer>
@@ -302,9 +328,10 @@ type BoxProps = {
   index: number;
   content: LevelOne;
   openLevel: (level: string) => void;
+  lang: 'eng' | 'hn';
 };
 
-const Box: FC<BoxProps> = ({index, content, openLevel}) => {
+const Box: FC<BoxProps> = ({index, lang, content, openLevel}) => {
   return (
     <View style={{height: 350}}>
       <View
@@ -341,7 +368,7 @@ const Box: FC<BoxProps> = ({index, content, openLevel}) => {
             mt={14}
             onPress={() => openLevel(content._id)}>
             <FlaqText color="black" weight="semibold" size="sm">
-              get started
+              {lang === 'eng' ? 'get started' : 'शुरू करें'}
             </FlaqText>
           </FlaqButton>
         </View>

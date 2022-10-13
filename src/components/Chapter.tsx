@@ -1,7 +1,7 @@
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import React, {FC} from 'react';
-import {Image, TouchableOpacity} from 'react-native';
+import {Image, TouchableOpacity, View} from 'react-native';
 import {ExploreStackParamList} from '../navigation/Home';
 import {Campaign} from '../screens/LevelScreen';
 import {Colors} from '../utils/colors';
@@ -12,29 +12,22 @@ export type ChapterScreenProps = NativeStackScreenProps<
   'Chapter'
 >;
 
-const Chapter: FC<Campaign & {levelOne: string; levelId: number}> = ({
-  title,
-  description1,
-  description2,
-  description3,
-  walletAddress,
-  _id,
-  levelOne,
-  levelId,
-}) => {
+const Chapter: FC<
+  Campaign & {index: number; levelOne: string; levelId: number}
+> = ({title, description1, index, walletAddress, _id, levelOne, levelId}) => {
   const navigation = useNavigation<ChapterScreenProps['navigation']>();
-  const getLink: NodeRequire = (icon: string) => {
-    switch (icon) {
-      case 'one': {
+  const getLink = () => {
+    switch (levelId) {
+      case 0: {
         return require('../../assets/images/small/one.png');
       }
-      case 'two': {
+      case 1: {
         return require('../../assets/images/small/two.png');
       }
-      case 'three': {
+      case 2: {
         return require('../../assets/images/small/three.png');
       }
-      case 'four': {
+      case 3: {
         return require('../../assets/images/small/four.png');
       }
       default: {
@@ -42,7 +35,7 @@ const Chapter: FC<Campaign & {levelOne: string; levelId: number}> = ({
       }
     }
   };
-  const link = getLink('one');
+  const link = getLink();
 
   const goToChapter = () => {
     navigation.navigate('Chapter', {
@@ -60,12 +53,13 @@ const Chapter: FC<Campaign & {levelOne: string; levelId: number}> = ({
       onPress={goToChapter}
       style={{
         backgroundColor: Colors.background.black,
+        marginTop: 10,
         padding: 16,
         borderRadius: 8,
         borderColor: Colors.background.dark,
         borderWidth: 1,
-        width: 200,
-        marginRight: 10,
+        width: index % 2 === 0 ? '47%' : '50%',
+        marginRight: index % 2 === 0 ? '2%' : 0,
       }}>
       <Image
         source={link}
