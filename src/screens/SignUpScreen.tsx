@@ -87,6 +87,10 @@ const SignUpScreen: FC<Props> = ({navigation}) => {
     navigation.navigate('Login');
   };
 
+  const openWebView = () => {
+    navigation.navigate('WebView', {uri: 'https://www.flaq.club'});
+  };
+
   return (
     <FlaqContainer>
       <View
@@ -247,7 +251,7 @@ const SignUpScreen: FC<Props> = ({navigation}) => {
           <FlaqText size="xxs" color="normal">
             by signing up you agree to our{' '}
           </FlaqText>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={openWebView}>
             <FlaqText
               size="xxs"
               color="purple"
@@ -255,7 +259,7 @@ const SignUpScreen: FC<Props> = ({navigation}) => {
               terms of use, privacy policy,{' '}
             </FlaqText>
           </TouchableOpacity>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={openWebView}>
             <FlaqText
               size="xxs"
               color="purple"
