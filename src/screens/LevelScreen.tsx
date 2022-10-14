@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {Fragment, useContext} from 'react';
 import {
   ActivityIndicator,
   Image,
@@ -194,19 +194,19 @@ const LevelScreen = () => {
         }}>
         {data!.level2?.map((lesson, index) => {
           return (
-            <>
+            <Fragment key={lesson._id}>
               {lesson.campaigns.map((chapter, idx) => {
                 return (
                   <Chapter
                     levelId={index}
                     index={idx}
-                    key={`lesson._id${index}`}
+                    key={`lesson._id${index}${idx}`}
                     levelOne={query}
                     {...chapter}
                   />
                 );
               })}
-            </>
+            </Fragment>
           );
         })}
         {data && (!data.level2 || data!.level2?.length === 0) && (

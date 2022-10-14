@@ -1,5 +1,11 @@
-import React, {useContext} from 'react';
-import {Image, ScrollView, TouchableOpacity, View} from 'react-native';
+import React, {FC, useContext} from 'react';
+import {
+  ActivityIndicator,
+  Image,
+  ScrollView,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import FlaqButton from '../components/common/flaqui/FlaqButton';
 import FlaqContainer from '../components/common/flaqui/FlaqContainer';
 import FlaqText from '../components/common/flaqui/FlaqText';
@@ -11,22 +17,69 @@ import {StorageClearAll} from '../utils/storage';
 import {AccountStatus, GlobalContext} from '../state/contexts/GlobalContext';
 import {setAccountStatus} from '../state/actions/global';
 import {showMessage} from 'react-native-flash-message';
+import {useQuery} from '@tanstack/react-query';
+import axios from '../apis/axios';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {NewsParamList} from '../navigation/Home';
+import {useNavigation} from '@react-navigation/native';
 
-const DATA = [
-  {
-    title: 'Crypto news',
-    subTitle:
-      'Solana Status confirmed the attack, noting that as of Wednesday morning, about 7,767 wallets have been affected.',
-  },
-  {
-    title: 'Business insider',
-    subTitle:
-      'Getting reservations in NYC has gotten so out of hand that some restaurants are now offering $1,000 NFTs so diners can skip the line',
-  },
-];
+type NewsScreenProps = NativeStackScreenProps<NewsParamList, 'News'>;
+
+type NewsType = {
+  title: string;
+  description: string;
+  image: string;
+  url: string;
+};
 
 const NewsScreen = () => {
   const {state, dispatch} = useContext(GlobalContext);
+
+  const navigation = useNavigation<NewsScreenProps['navigation']>();
+
+  const {data, isLoading, isError} = useQuery(
+    ['news'],
+    async () => {
+      const response = await axios.get<NewsType[]>('/news/getNews');
+      return response.data;
+    },
+    {
+      onError: error => {
+        console.log('LEVEL1', error);
+      },
+    },
+  );
+
+  if (isLoading) {
+    return (
+      <FlaqContainer fullWidth={true}>
+        <View style={globalStyles.fullCenter}>
+          <ActivityIndicator />
+        </View>
+      </FlaqContainer>
+    );
+  }
+
+  if (isError) {
+    return (
+      <FlaqContainer fullWidth={true}>
+        <View style={globalStyles.fullCenter}>
+          {/* <ActivityIndicator /> */}
+          <FlaqText>there is some error fetching data.</FlaqText>
+          <TouchableOpacity
+            onPress={() => {
+              dispatch(setAccountStatus(AccountStatus.NEW));
+            }}>
+            <FlaqText
+              weight="semibold"
+              style={{textDecorationLine: 'underline'}}>
+              try again?
+            </FlaqText>
+          </TouchableOpacity>
+        </View>
+      </FlaqContainer>
+    );
+  }
 
   const handleLogout = async () => {
     try {
@@ -61,8 +114,14 @@ const NewsScreen = () => {
         <ScrollView
           showsVerticalScrollIndicator={false}
           style={{flex: 1, width: '100%'}}>
-          {DATA.map((content, index) => {
-            return <Box key={index} index={index} content={content} />;
+          {data.map(content => {
+            return (
+              <Box
+                key={content.title}
+                content={content}
+                navigation={navigation}
+              />
+            );
           })}
         </ScrollView>
       </FlaqContainer>
@@ -70,7 +129,11 @@ const NewsScreen = () => {
   );
 };
 
-const Box = ({index, content}: any) => {
+const Box = ({content, navigation}: {content: NewsType; navigation: any}) => {
+  const openWebView = () => {
+    navigation.navigate('WebView', {uri: content.url});
+  };
+
   return (
     <View style={{height: 350, width: '100%', marginBottom: 10}}>
       <View
@@ -105,9 +168,13 @@ const Box = ({index, content}: any) => {
             {content.title}
           </FlaqText>
           <FlaqText size="sm" align="left" style={{lineHeight: 22}}>
-            {content.subTitle}
+            {content.description.slice(1, 100)}
+            {content.description.length > 100 && '...'}
           </FlaqText>
-          <FlaqButton fullWidth={false} style={globalStyles.rowCenter}>
+          <FlaqButton
+            onPress={openWebView}
+            fullWidth={false}
+            style={globalStyles.rowCenter}>
             <FlaqText
               color="black"
               weight="semibold"

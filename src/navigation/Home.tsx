@@ -32,11 +32,17 @@ export type ExploreStackParamList = {
 export type TabParamList = {
   Home: undefined;
   ExploreStack: undefined;
+  NewsStack: undefined;
+};
+
+export type NewsParamList = {
   News: undefined;
+  WebView: {uri: string};
 };
 
 const TabStack = createBottomTabNavigator<TabParamList>();
 const ExploreStack = createNativeStackNavigator<ExploreStackParamList>();
+const NewsStack = createNativeStackNavigator<NewsParamList>();
 
 const HomeStack = () => {
   const renderTabIcon = (
@@ -51,7 +57,7 @@ const HomeStack = () => {
         return <AntDesign name="home" size={size} color={color} />;
       case 'ExploreStack':
         return <Entypo name="compass" size={size} color={color} />;
-      case 'News':
+      case 'NewsStack':
         return <Feather name="book-open" size={size} color={color} />;
       default:
         return <AntDesign name={iconName} size={size} color={color} />;
@@ -80,9 +86,22 @@ const HomeStack = () => {
     );
   };
 
+  const NewsScreenStack = () => {
+    return (
+      <NewsStack.Navigator
+        initialRouteName="News"
+        screenOptions={{
+          headerShown: false,
+        }}>
+        <NewsStack.Screen name="News" component={NewsScreen} />
+        <NewsStack.Screen name="WebView" component={WebViewScreen} />
+      </NewsStack.Navigator>
+    );
+  };
+
   return (
     <TabStack.Navigator
-      initialRouteName="ExploreStack"
+      initialRouteName="Home"
       screenOptions={({route}) => ({
         tabBarShowLabel: false,
         headerShown: false,
@@ -105,7 +124,7 @@ const HomeStack = () => {
       })}>
       <TabStack.Screen name="Home" component={ExploreScreenStack} />
       {/* <TabStack.Screen name="ExploreStack" component={ExploreScreenStack} /> */}
-      <TabStack.Screen name="News" component={NewsScreen} />
+      <TabStack.Screen name="NewsStack" component={NewsScreenStack} />
     </TabStack.Navigator>
   );
 };
