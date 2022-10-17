@@ -168,7 +168,7 @@ const Box = ({content, navigation}: {content: NewsType; navigation: any}) => {
             {content.title}
           </FlaqText>
           <FlaqText size="sm" align="left" style={{lineHeight: 22}}>
-            {content.description.slice(1, 100)}
+            {content.description.slice(0, 100)}
             {content.description.length > 100 && '...'}
           </FlaqText>
           <FlaqButton

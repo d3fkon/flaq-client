@@ -22,6 +22,8 @@ import {showMessage} from 'react-native-flash-message';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {ExploreStackParamList} from '../navigation/Home';
 import FlaqAccordian from '../components/common/flaqui/FlaqAccordian';
+import {logout} from '../apis/query';
+import {StorageClearAll} from '../utils/storage';
 
 export type LevelOne = {
   _id: string;
@@ -109,38 +111,67 @@ const ExploreScreen: FC<ExploreScreenProps> = ({navigation}) => {
     },
   ];
 
+  const handleLogout = async () => {
+    try {
+      await logout();
+      await StorageClearAll();
+      dispatch(setAccountStatus(AccountStatus.NEW));
+    } catch (e) {
+      showMessage({
+        message: 'error logging out',
+        type: 'danger',
+      });
+    }
+  };
+
   if (isLoading) {
     return (
       <FlaqContainer fullWidth={true}>
         <Container>
           <View style={[globalStyles.rowSpaceBetween, globalStyles.fullWidth]}>
-            <FlaqText align="left" weight="semibold" mt={30} mb={20} size="lg">
-              {lang === 'eng' ? 'explore flaq' : 'Flaq का अन्वेषण करें'}
-            </FlaqText>
-            <TouchableOpacity onPress={changeLang}>
-              <View
-                accessible={true}
-                accessibilityLabel="loading"
-                style={globalStyles.rowCenter}>
-                {isFetching && (
-                  <ActivityIndicator
-                    size={'small'}
-                    style={{marginTop: 30, marginBottom: 20, marginRight: 10}}
-                  />
-                )}
-                <FlaqText
+            <View style={globalStyles.rowCenter}>
+              <FlaqText
+                align="left"
+                weight="semibold"
+                mt={30}
+                mb={20}
+                size="lg">
+                {lang === 'eng' ? 'explore flaq' : 'Flaq का अन्वेषण करें'}
+              </FlaqText>
+              <TouchableOpacity onPress={changeLang}>
+                <View
                   accessible={true}
-                  accessibilityLabel={`change language to ${
-                    lang === 'eng' ? 'hindi' : 'eng'
-                  }`}
-                  mt={30}
-                  mb={20}
-                  color="awaiting"
-                  style={{textDecorationLine: 'underline'}}
-                  weight="semibold">
-                  {lang === 'eng' ? 'hindi' : 'eng'}
-                </FlaqText>
-              </View>
+                  accessibilityLabel="loading"
+                  style={globalStyles.rowCenter}>
+                  {isFetching && (
+                    <ActivityIndicator
+                      size={'small'}
+                      style={{marginTop: 30, marginBottom: 20, marginRight: 10}}
+                    />
+                  )}
+                  <FlaqText
+                    accessible={true}
+                    accessibilityLabel={`change language to ${
+                      lang === 'eng' ? 'hindi' : 'eng'
+                    }`}
+                    mt={30}
+                    mb={20}
+                    color="awaiting"
+                    style={{textDecorationLine: 'underline'}}
+                    weight="semibold">
+                    {lang === 'eng' ? 'hindi' : 'eng'}
+                  </FlaqText>
+                </View>
+              </TouchableOpacity>
+            </View>
+            <TouchableOpacity onPress={() => handleLogout()}>
+              <FlaqText
+                mt={30}
+                mb={20}
+                style={{color: '#991b1b'}}
+                weight="bold">
+                logout
+              </FlaqText>
             </TouchableOpacity>
           </View>
         </Container>
@@ -178,26 +209,42 @@ const ExploreScreen: FC<ExploreScreenProps> = ({navigation}) => {
       <FlaqContainer fullWidth={true}>
         <Container>
           <View style={[globalStyles.rowSpaceBetween, globalStyles.fullWidth]}>
-            <FlaqText align="left" weight="semibold" mt={30} mb={20} size="lg">
-              {lang === 'eng' ? 'explore flaq' : 'Flaq का अन्वेषण करें'}
-            </FlaqText>
-            <TouchableOpacity onPress={changeLang}>
-              <View style={globalStyles.rowCenter}>
-                {isFetching && (
-                  <ActivityIndicator
-                    size={'small'}
-                    style={{marginTop: 30, marginBottom: 20, marginRight: 10}}
-                  />
-                )}
-                <FlaqText
-                  mt={30}
-                  mb={20}
-                  color="awaiting"
-                  style={{textDecorationLine: 'underline'}}
-                  weight="semibold">
-                  {lang === 'eng' ? 'hindi' : 'eng'}
-                </FlaqText>
-              </View>
+            <View style={globalStyles.rowCenter}>
+              <FlaqText
+                align="left"
+                weight="semibold"
+                mt={30}
+                mb={20}
+                size="lg">
+                {lang === 'eng' ? 'explore flaq' : 'Flaq का अन्वेषण करें'}
+              </FlaqText>
+              <TouchableOpacity onPress={changeLang}>
+                <View style={globalStyles.rowCenter}>
+                  {isFetching && (
+                    <ActivityIndicator
+                      size={'small'}
+                      style={{marginTop: 30, marginBottom: 20, marginRight: 10}}
+                    />
+                  )}
+                  <FlaqText
+                    mt={30}
+                    mb={20}
+                    color="awaiting"
+                    style={{textDecorationLine: 'underline'}}
+                    weight="semibold">
+                    {lang === 'eng' ? 'hindi' : 'eng'}
+                  </FlaqText>
+                </View>
+              </TouchableOpacity>
+            </View>
+            <TouchableOpacity onPress={() => handleLogout()}>
+              <FlaqText
+                mt={30}
+                mb={20}
+                style={{color: '#991b1b'}}
+                weight="bold">
+                logout
+              </FlaqText>
             </TouchableOpacity>
           </View>
         </Container>
@@ -243,26 +290,33 @@ const ExploreScreen: FC<ExploreScreenProps> = ({navigation}) => {
     <FlaqContainer fullWidth={true}>
       <Container>
         <View style={[globalStyles.rowSpaceBetween, globalStyles.fullWidth]}>
-          <FlaqText align="left" weight="semibold" mt={30} mb={20} size="lg">
-            {lang === 'eng' ? 'explore flaq' : 'Flaq का अन्वेषण करें'}
-          </FlaqText>
-          <TouchableOpacity onPress={changeLang}>
-            <View style={globalStyles.rowCenter}>
-              {isFetching && (
-                <ActivityIndicator
-                  size={'small'}
-                  style={{marginTop: 30, marginBottom: 20, marginRight: 10}}
-                />
-              )}
-              <FlaqText
-                mt={30}
-                mb={20}
-                color="awaiting"
-                style={{textDecorationLine: 'underline'}}
-                weight="semibold">
-                {lang === 'eng' ? 'hindi' : 'eng'}
-              </FlaqText>
-            </View>
+          <View style={globalStyles.rowCenter}>
+            <FlaqText align="left" weight="semibold" mt={30} mb={20} size="lg">
+              {lang === 'eng' ? 'explore flaq' : 'Flaq का अन्वेषण करें'}
+            </FlaqText>
+            <TouchableOpacity style={{marginLeft: 10}} onPress={changeLang}>
+              <View style={globalStyles.rowCenter}>
+                {isFetching && (
+                  <ActivityIndicator
+                    size={'small'}
+                    style={{marginTop: 30, marginBottom: 20, marginRight: 10}}
+                  />
+                )}
+                <FlaqText
+                  mt={30}
+                  mb={20}
+                  color="awaiting"
+                  style={{textDecorationLine: 'underline'}}
+                  weight="semibold">
+                  {lang === 'eng' ? 'hindi' : 'eng'}
+                </FlaqText>
+              </View>
+            </TouchableOpacity>
+          </View>
+          <TouchableOpacity onPress={() => handleLogout()}>
+            <FlaqText mt={30} mb={20} style={{color: '#991b1b'}} weight="bold">
+              logout
+            </FlaqText>
           </TouchableOpacity>
         </View>
       </Container>
