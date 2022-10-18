@@ -150,7 +150,7 @@ const LoginScreen: FC<Props> = ({navigation}) => {
                   onPress={handleSubmit}
                   disabled={isSubmitting}>
                   <FlaqText color="black" weight="semibold" size="sm">
-                    {isSubmitting ? 'loging in..' : 'log in'}
+                    {isSubmitting ? 'logging in..' : 'log in'}
                   </FlaqText>
                 </FlaqButton>
                 <TouchableOpacity onPress={goToSignupPage}>

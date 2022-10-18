@@ -1,6 +1,7 @@
 import React, {FC, useContext, useState} from 'react';
 import {
   ActivityIndicator,
+  Alert,
   Image,
   ScrollView,
   TouchableOpacity,
@@ -111,7 +112,7 @@ const ExploreScreen: FC<ExploreScreenProps> = ({navigation}) => {
     },
   ];
 
-  const handleLogout = async () => {
+  const logoutUser = async () => {
     try {
       await logout();
       await StorageClearAll();
@@ -122,6 +123,22 @@ const ExploreScreen: FC<ExploreScreenProps> = ({navigation}) => {
         type: 'danger',
       });
     }
+  };
+
+  const handleLogout = async () => {
+    Alert.alert('are you sure you want to logout?', '', [
+      {
+        text: 'Cancel',
+        onPress: () => console.log('Cancel Pressed'),
+        style: 'cancel',
+      },
+      {
+        text: 'Ok',
+        onPress: async () => {
+          await logoutUser();
+        },
+      },
+    ]);
   };
 
   if (isLoading) {
