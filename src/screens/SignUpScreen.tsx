@@ -66,12 +66,13 @@ const SignUpScreen: FC<Props> = ({navigation}) => {
       console.log('OTP Sent resopnse: ', response);
     } catch (e) {
       showMessage({message: 'some error sending otp', type: 'danger'});
+      console.log(e);
     }
   };
 
   const handleVerifyOtp = async (email: string) => {
-    const response = await verifyOtp(email, otp);
     try {
+      const response = await verifyOtp(email, otp);
       showMessage({
         message: 'otp verified',
         type: 'success',
@@ -79,7 +80,7 @@ const SignUpScreen: FC<Props> = ({navigation}) => {
       setIsOtpVerified(true);
       console.log('OTP Sent resopnse: ', response);
     } catch (e) {
-      showMessage({message: 'some error verifying otp', type: 'danger'});
+      showMessage({message: 'wrong otp', type: 'danger'});
     }
   };
 

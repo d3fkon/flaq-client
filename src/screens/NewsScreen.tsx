@@ -156,7 +156,9 @@ const Box = ({content, navigation}: {content: NewsType; navigation: any}) => {
             alignItems: 'flex-start',
           }}>
           <Image
-            source={require('../../assets/images/bi.png')}
+            source={{
+              uri: content.image,
+            }}
             style={{
               width: 60,
               height: 60,

@@ -23,12 +23,12 @@ export const auth = async (
 };
 
 export const sendOtp = async (email: string) => {
-  try {
-    const response = await axios.post('/auth/email-otp/sendOtp', {
-      email,
-    });
-    return response.data;
-  } catch (e) {}
+  // try {
+  const response = await axios.post('/auth/email-otp/sendOtp', {
+    email,
+  });
+  return response.data;
+  // } catch (e) {}
 };
 
 export const verifyOtp = async (email: string, otp: string) => {
