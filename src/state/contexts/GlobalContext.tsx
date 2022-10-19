@@ -18,6 +18,7 @@ type InitialStateType = {
     email: string;
     accessToken: string;
   };
+  lang: 'eng' | 'hn';
 };
 
 export enum StatusEnum {
@@ -49,12 +50,13 @@ export enum AppState {
   TESTING = 'TESTING',
 }
 
-export const initialState = {
+export const initialState: InitialStateType = {
   accountStatus: AccountStatus.LOADING,
   auth: {
     email: '',
     accessToken: '',
   },
+  lang: 'eng',
   updateStatus: {
     loading: false,
     status: StatusEnum.CHECKING_FOR_UPDATE,
@@ -84,6 +86,8 @@ const GlobalProvider = ({
     /*** GETDATA */
     const accessToken = await StorageGetItem('x-access-token');
     const email = await StorageGetItem('email');
+    const lang = await StorageGetItem('lang');
+    dispatch(setAuth({email, accessToken}));
     dispatch(setAuth({email, accessToken}));
     if (accessToken) {
       dispatch(setAccountStatus(AccountStatus.EXISITING));

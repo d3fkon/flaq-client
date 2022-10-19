@@ -2,6 +2,8 @@ import React from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Entypo from 'react-native-vector-icons/Entypo';
 import Feather from 'react-native-vector-icons/Feather';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
@@ -15,6 +17,8 @@ import ChapterScreen from '../screens/ChapterScreen';
 import {RouteProp} from '@react-navigation/native';
 import WebViewScreen from '../screens/WebViewScreen';
 import TipScreen from '../screens/TipScreen';
+import ProfileScreen from '../screens/ProfileScreen';
+import LanguageScreen from '../screens/LanguageScreen';
 
 export type ExploreStackParamList = {
   Level: {level: string} | undefined;
@@ -33,6 +37,7 @@ export type TabParamList = {
   Home: undefined;
   ExploreStack: undefined;
   NewsStack: undefined;
+  ProfileStack: undefined;
 };
 
 export type NewsParamList = {
@@ -40,9 +45,15 @@ export type NewsParamList = {
   WebView: {uri: string};
 };
 
+export type ProfileParamList = {
+  Profile: undefined;
+  Language: undefined;
+};
+
 const TabStack = createBottomTabNavigator<TabParamList>();
 const ExploreStack = createNativeStackNavigator<ExploreStackParamList>();
 const NewsStack = createNativeStackNavigator<NewsParamList>();
+const ProfileStack = createNativeStackNavigator<ProfileParamList>();
 
 const HomeStack = () => {
   const renderTabIcon = (
@@ -54,11 +65,21 @@ const HomeStack = () => {
     let iconName = 'home';
     switch (route.name) {
       case 'Home':
-        return <AntDesign name="home" size={size} color={color} />;
+        return (
+          <MaterialCommunityIcons
+            name="home-outline"
+            size={size}
+            color={color}
+          />
+        );
       case 'ExploreStack':
         return <Entypo name="compass" size={size} color={color} />;
       case 'NewsStack':
-        return <Feather name="book-open" size={size} color={color} />;
+        return <Feather name="book-open" size={size - 4} color={color} />;
+      case 'ProfileStack':
+        return (
+          <Ionicons name="person-circle-outline" size={size} color={color} />
+        );
       default:
         return <AntDesign name={iconName} size={size} color={color} />;
     }
@@ -99,6 +120,19 @@ const HomeStack = () => {
     );
   };
 
+  const ProfileScreenStack = () => {
+    return (
+      <ProfileStack.Navigator
+        initialRouteName="Profile"
+        screenOptions={{
+          headerShown: false,
+        }}>
+        <ProfileStack.Screen name="Profile" component={ProfileScreen} />
+        <ProfileStack.Screen name="Language" component={LanguageScreen} />
+      </ProfileStack.Navigator>
+    );
+  };
+
   return (
     <TabStack.Navigator
       initialRouteName="Home"
@@ -125,6 +159,7 @@ const HomeStack = () => {
       <TabStack.Screen name="Home" component={ExploreScreenStack} />
       {/* <TabStack.Screen name="ExploreStack" component={ExploreScreenStack} /> */}
       <TabStack.Screen name="NewsStack" component={NewsScreenStack} />
+      <TabStack.Screen name="ProfileStack" component={ProfileScreenStack} />
     </TabStack.Navigator>
   );
 };

@@ -22,6 +22,13 @@ export const setAuth = (auth: typeof initialState.auth) => {
   };
 };
 
+export const setLang = (lang: 'eng' | 'hn') => {
+  return {
+    type: 'SET_LANG',
+    payload: lang,
+  };
+};
+
 export const clearData = () => {
   return {
     type: 'CLEAR_DATA',

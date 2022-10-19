@@ -25,6 +25,7 @@ import {ExploreStackParamList} from '../navigation/Home';
 import FlaqAccordian from '../components/common/flaqui/FlaqAccordian';
 import {logout} from '../apis/query';
 import {StorageClearAll} from '../utils/storage';
+import HomeInfoCards from '../components/HomeInfoCards';
 
 export type LevelOne = {
   _id: string;
@@ -38,8 +39,11 @@ type ExploreScreenProps = NativeStackScreenProps<
 >;
 
 const ExploreScreen: FC<ExploreScreenProps> = ({navigation}) => {
-  const [lang, setLang] = useState<'eng' | 'hn'>('eng');
-  const {state, dispatch} = useContext(GlobalContext);
+  // const [lang, setLang] = useState<'eng' | 'hn'>('eng');
+  const {
+    state: {lang},
+    dispatch,
+  } = useContext(GlobalContext);
   const axiosPrivate = useAxiosPrivate();
 
   const {data, isLoading, isError, isFetching} = useQuery(
@@ -70,9 +74,9 @@ const ExploreScreen: FC<ExploreScreenProps> = ({navigation}) => {
     navigation.navigate('Level', {level});
   };
 
-  const changeLang = () => {
-    setLang(lang === 'eng' ? 'hn' : 'eng');
-  };
+  // const changeLang = () => {
+  //   setLang(lang === 'eng' ? 'hn' : 'eng');
+  // };
 
   const englishQuestions = [
     {
@@ -155,7 +159,7 @@ const ExploreScreen: FC<ExploreScreenProps> = ({navigation}) => {
                 size="lg">
                 {lang === 'eng' ? 'explore flaq' : 'Flaq का अन्वेषण करें'}
               </FlaqText>
-              <TouchableOpacity onPress={changeLang}>
+              {/* <TouchableOpacity onPress={changeLang}>
                 <View
                   accessible={true}
                   accessibilityLabel="loading"
@@ -179,9 +183,9 @@ const ExploreScreen: FC<ExploreScreenProps> = ({navigation}) => {
                     {lang === 'eng' ? 'hindi' : 'eng'}
                   </FlaqText>
                 </View>
-              </TouchableOpacity>
+              </TouchableOpacity> */}
             </View>
-            <TouchableOpacity onPress={() => handleLogout()}>
+            {/* <TouchableOpacity onPress={() => handleLogout()}>
               <FlaqText
                 mt={30}
                 mb={20}
@@ -189,7 +193,7 @@ const ExploreScreen: FC<ExploreScreenProps> = ({navigation}) => {
                 weight="bold">
                 logout
               </FlaqText>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </View>
         </Container>
         <View style={globalStyles.fullCenter}>
@@ -221,88 +225,6 @@ const ExploreScreen: FC<ExploreScreenProps> = ({navigation}) => {
     );
   }
 
-  if (isError) {
-    return (
-      <FlaqContainer fullWidth={true}>
-        <Container>
-          <View style={[globalStyles.rowSpaceBetween, globalStyles.fullWidth]}>
-            <View style={globalStyles.rowCenter}>
-              <FlaqText
-                align="left"
-                weight="semibold"
-                mt={30}
-                mb={20}
-                size="lg">
-                {lang === 'eng' ? 'explore flaq' : 'Flaq का अन्वेषण करें'}
-              </FlaqText>
-              <TouchableOpacity onPress={changeLang}>
-                <View style={globalStyles.rowCenter}>
-                  {isFetching && (
-                    <ActivityIndicator
-                      size={'small'}
-                      style={{marginTop: 30, marginBottom: 20, marginRight: 10}}
-                    />
-                  )}
-                  <FlaqText
-                    mt={30}
-                    mb={20}
-                    color="awaiting"
-                    style={{textDecorationLine: 'underline'}}
-                    weight="semibold">
-                    {lang === 'eng' ? 'hindi' : 'eng'}
-                  </FlaqText>
-                </View>
-              </TouchableOpacity>
-            </View>
-            <TouchableOpacity onPress={() => handleLogout()}>
-              <FlaqText
-                mt={30}
-                mb={20}
-                style={{color: '#991b1b'}}
-                weight="bold">
-                logout
-              </FlaqText>
-            </TouchableOpacity>
-          </View>
-        </Container>
-        <View style={globalStyles.fullCenter}>
-          {/* <ActivityIndicator /> */}
-          <FlaqText>there is some error fetching data.</FlaqText>
-          <TouchableOpacity
-            onPress={() => {
-              dispatch(setAccountStatus(AccountStatus.NEW));
-            }}>
-            <FlaqText
-              weight="semibold"
-              style={{textDecorationLine: 'underline'}}>
-              try again?
-            </FlaqText>
-          </TouchableOpacity>
-        </View>
-        <Container>
-          <FlaqText
-            align="left"
-            weight="semibold"
-            size="lg"
-            style={[globalStyles.fullWidth, {marginTop: 30}]}>
-            {lang === 'eng' ? 'questions?' : 'सवाल?'}
-          </FlaqText>
-          <ScrollView
-            showsVerticalScrollIndicator={false}
-            style={{
-              width: '100%',
-              paddingVertical: 12,
-            }}>
-            <FlaqAccordian
-              sections={lang === 'eng' ? englishQuestions : hindiQuestions}
-            />
-          </ScrollView>
-        </Container>
-      </FlaqContainer>
-    );
-  }
-  // console.log(data);
-
   return (
     <FlaqContainer fullWidth={true}>
       <Container>
@@ -311,7 +233,7 @@ const ExploreScreen: FC<ExploreScreenProps> = ({navigation}) => {
             <FlaqText align="left" weight="semibold" mt={30} mb={20} size="lg">
               {lang === 'eng' ? 'explore flaq' : 'Flaq का अन्वेषण करें'}
             </FlaqText>
-            <TouchableOpacity style={{marginLeft: 10}} onPress={changeLang}>
+            {/* <TouchableOpacity style={{marginLeft: 10}} onPress={changeLang}>
               <View style={globalStyles.rowCenter}>
                 {isFetching && (
                   <ActivityIndicator
@@ -328,69 +250,72 @@ const ExploreScreen: FC<ExploreScreenProps> = ({navigation}) => {
                   {lang === 'eng' ? 'hindi' : 'eng'}
                 </FlaqText>
               </View>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </View>
-          <TouchableOpacity onPress={() => handleLogout()}>
+          {/* <TouchableOpacity onPress={() => handleLogout()}>
             <FlaqText mt={30} mb={20} style={{color: '#991b1b'}} weight="bold">
               logout
             </FlaqText>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
       </Container>
-      <ScrollView
-        accessibilityRole="adjustable"
-        accessible={true}
-        accessibilityLabel="level 1"
-        horizontal={true}
-        showsHorizontalScrollIndicator={false}
-        contentContainerStyle={{
-          paddingLeft: 16,
-        }}
-        style={{
-          width: '100%',
-          minHeight: 350,
-          maxHeight: 350,
-        }}>
-        {data?.map((content, index) => {
-          return (
-            <Box
-              lang={lang}
-              key={index}
-              index={index}
-              content={content}
-              openLevel={openLevel}
-            />
-          );
-        })}
-        {data.length === 0 && (
-          <FlaqText align="center">
-            {lang === 'eng' ? 'no content' : 'hindi content coming soon'}
-          </FlaqText>
-        )}
-      </ScrollView>
-      <Container>
-        <FlaqText
-          align="left"
-          weight="semibold"
-          size="lg"
-          style={[globalStyles.fullWidth, {marginTop: 30}]}>
-          {lang === 'eng' ? 'questions?' : 'सवाल?'}
-        </FlaqText>
+      <ScrollView horizontal={false} style={{width: '100%'}}>
         <ScrollView
           accessibilityRole="adjustable"
           accessible={true}
-          accessibilityLabel="frequently asked questions"
-          showsVerticalScrollIndicator={false}
+          accessibilityLabel="level 1"
+          horizontal={true}
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={{
+            paddingLeft: 16,
+          }}
           style={{
             width: '100%',
-            height: 230,
-            paddingVertical: 12,
+            minHeight: 350,
+            maxHeight: 350,
           }}>
-          <FlaqAccordian
-            sections={lang === 'eng' ? englishQuestions : hindiQuestions}
-          />
+          {isError ? (
+            <Box
+              lang="eng"
+              content={{
+                title: 'error',
+                _id: 'flaq_error',
+                description: 'there was some error fetching data',
+              }}
+              index={0}
+              openLevel={openLevel}
+            />
+          ) : (
+            data?.map((content, index) => {
+              return (
+                <Box
+                  lang={lang}
+                  key={index}
+                  index={index}
+                  content={content}
+                  openLevel={openLevel}
+                />
+              );
+            })
+          )}
+          {data && data.length === 0 && (
+            <FlaqText align="center">
+              {lang === 'eng' ? 'no content' : 'hindi content coming soon'}
+            </FlaqText>
+          )}
         </ScrollView>
-      </Container>
+        <HomeInfoCards />
+        <Container>
+          <FlaqText align="left" weight="semibold" size="lg" mt={30} mb={20}>
+            {lang === 'eng' ? 'questions?' : 'सवाल?'}
+          </FlaqText>
+          <View style={globalStyles.fullWidth}>
+            <FlaqAccordian
+              sections={lang === 'eng' ? englishQuestions : hindiQuestions}
+            />
+          </View>
+        </Container>
+      </ScrollView>
     </FlaqContainer>
   );
 };
@@ -403,6 +328,8 @@ type BoxProps = {
 };
 
 const Box: FC<BoxProps> = ({index, lang, content, openLevel}) => {
+  const {dispatch} = useContext(GlobalContext);
+
   return (
     <View style={{height: 350}}>
       <View
@@ -437,9 +364,19 @@ const Box: FC<BoxProps> = ({index, lang, content, openLevel}) => {
             accessibilityLabel="click get started"
             fullWidth={false}
             mt={14}
-            onPress={() => openLevel(content._id)}>
+            onPress={() => {
+              if (content._id === 'flaq_error') {
+                dispatch(setAccountStatus(AccountStatus.NEW));
+              } else {
+                openLevel(content._id);
+              }
+            }}>
             <FlaqText color="black" weight="semibold" size="sm">
-              {lang === 'eng' ? 'get started' : 'शुरू करें'}
+              {content._id === 'flaq_error'
+                ? 'try again?'
+                : lang === 'eng'
+                ? 'get started'
+                : 'शुरू करें'}
             </FlaqText>
           </FlaqButton>
         </View>

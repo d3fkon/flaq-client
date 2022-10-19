@@ -8,6 +8,11 @@ const reducer = (state: any, action: {type: string; payload: any}) => {
         ...state,
         auth: payload,
       };
+    case 'SET_LANG':
+      return {
+        ...state,
+        lang: payload,
+      };
     case 'SET_UPDATE':
       return {
         ...state,
