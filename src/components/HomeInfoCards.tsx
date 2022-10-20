@@ -1,9 +1,7 @@
 import {Image, Linking, View} from 'react-native';
 import React, {FC} from 'react';
 import FlaqText from './common/flaqui/FlaqText';
-import {InfoCardType} from '../screens/HomeScreen';
 import {Colors} from '../utils/colors';
-import LinearGradient from 'react-native-linear-gradient';
 import globalStyles from '../utils/global_styles';
 import Container from './common/Container';
 import FlaqIcon, {IconType} from './common/flaqui/FlaqIcon';
@@ -27,7 +25,6 @@ const openLink = (url: string) => {
     if (supported) {
       Linking.openURL(url);
     } else {
-      // console.log("Don't know how to open URI: " + url);
       showMessage({
         message:
           "can't open link. please select default browser in the setting",
@@ -37,34 +34,52 @@ const openLink = (url: string) => {
   });
 };
 
-const HomeInfoCards = () => {
+const HomeInfoCards = ({lang}: {lang: 'eng' | 'hn'}) => {
   const cards: HomeInfoCardType[] = [
     {
-      title: 'course structure',
-      heading: 'flaq roadmap',
-      subHeading: 'learn about what have coming in the next weeks',
+      title: lang === 'eng' ? 'course structure' : 'कोर्स स्ट्रक्चर',
+      heading: lang === 'eng' ? 'flaq content roadmap' : 'फ़्लैक रोडमैप',
+      subHeading:
+        lang === 'eng'
+          ? 'check out what we have in store for you in the coming weeks!'
+          : 'अगले हफ्तों में हमारे पास क्या आ रहा है, इसके बारे में जानें',
       icon: 'map',
       iconType: 'feather',
       background: 'darkpink',
       iconColor: 'darkpink',
       iconBackground: 'lightpink',
       handlePress: () => {
-        openLink(
-          'https://onpar.notion.site/Flaq-Roadmap-3441f1e1fac44086ba9bd64f16521ae8',
-        );
+        if (lang === 'hn') {
+          openLink(
+            'https://onpar.notion.site/Course-Roadmap-c28c293212e048da975a1de1ea1ab4e2',
+          );
+        } else {
+          openLink(
+            'https://onpar.notion.site/Flaq-Roadmap-3441f1e1fac44086ba9bd64f16521ae8',
+          );
+        }
       },
     },
     {
-      title: 'web3 dictionary',
-      heading: 'flaq dictionary',
-      subHeading: 'tired of not knowing all those web3 slangs?',
+      title: lang === 'eng' ? 'web3 dictionary' : 'वेब3 डिक्शनरी',
+      heading: lang === 'eng' ? 'web3 dictionary' : 'वेब3 डिक्शनरी',
+      subHeading:
+        lang === 'eng'
+          ? "tired of not knowing what web3 terms mean? we've got you!"
+          : 'उन सभी वेब3 शब्दों को नहीं जानने की वजह से थक गए हैं?',
       icon: 'book',
       iconType: 'antdesign',
       background: 'darkorange',
       iconColor: 'darkorange',
       iconBackground: 'lightorange',
       handlePress: () => {
-        openLink('https://learn.flaq.club/web3-lingo/web3-dictionary');
+        if (lang === 'hn') {
+          openLink(
+            'https://seekhiye.flaq.club/%E0%A4%B6%E0%A4%AC%E0%A5%8D%E0%A4%A6%E0%A4%95%E0%A5%8B%E0%A4%B6/Web3%20(%E0%A4%B5%E0%A5%87%E0%A4%AC3)%20%E0%A4%B6%E0%A4%AC%E0%A5%8D%E0%A4%A6%E0%A4%95%E0%A5%8B%E0%A4%B6',
+          );
+        } else {
+          openLink('https://learn.flaq.club/web3-lingo/web3-dictionary');
+        }
       },
     },
   ];
@@ -74,7 +89,7 @@ const HomeInfoCards = () => {
       <View style={[globalStyles.fullWidth]}>
         {cards.map(card => {
           return (
-            <View style={{marginTop: 24, width: '100%'}}>
+            <View key={card.title} style={{marginTop: 24, width: '100%'}}>
               <FlaqText align="left" mb={12} size="lg" weight="semibold">
                 {card.title}
               </FlaqText>

@@ -1,29 +1,17 @@
-import React, {FC, useContext, useState} from 'react';
-import {
-  ActivityIndicator,
-  Image,
-  ScrollView,
-  TouchableOpacity,
-  View,
-} from 'react-native';
-import FlaqButton from '../components/common/flaqui/FlaqButton';
+import React, {useContext} from 'react';
+import {TouchableOpacity, View} from 'react-native';
 import FlaqContainer from '../components/common/flaqui/FlaqContainer';
 import FlaqText from '../components/common/flaqui/FlaqText';
 import globalStyles from '../utils/global_styles';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import {Colors} from '../utils/colors';
-import {logout} from '../apis/query';
-import {StorageClearAll, StorageSetItem} from '../utils/storage';
-import {AccountStatus, GlobalContext} from '../state/contexts/GlobalContext';
-import {setAccountStatus, setLang} from '../state/actions/global';
-import {showMessage} from 'react-native-flash-message';
-import {useQuery} from '@tanstack/react-query';
-import axios from '../apis/axios';
+import {StorageSetItem} from '../utils/storage';
+import {GlobalContext} from '../state/contexts/GlobalContext';
+import {setLang} from '../state/actions/global';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {ProfileParamList} from '../navigation/Home';
 import {useNavigation} from '@react-navigation/native';
-import Container from '../components/common/Container';
-import FlaqIcon, {IconType} from '../components/common/flaqui/FlaqIcon';
+import FlaqIcon from '../components/common/flaqui/FlaqIcon';
 
 type LanguageScreenProps = NativeStackScreenProps<ProfileParamList, 'Language'>;
 
@@ -107,6 +95,8 @@ const LanguageItem = ({
 }) => {
   return (
     <TouchableOpacity
+      accessible={true}
+      accessibilityLabel={`select ${data.title}`}
       onPress={data.handleClick}
       style={[
         globalStyles.fullWidth,

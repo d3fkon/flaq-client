@@ -1,16 +1,8 @@
-import {
-  View,
-  Image,
-  ActivityIndicator,
-  TouchableOpacity,
-  Linking,
-  Alert,
-} from 'react-native';
-import React, {useContext} from 'react';
+import {View, Image, TouchableOpacity, Linking, Alert} from 'react-native';
+import React from 'react';
 import FlaqContainer from '../components/common/flaqui/FlaqContainer';
 import globalStyles from '../utils/global_styles';
 import FlaqText from '../components/common/flaqui/FlaqText';
-import {GlobalContext, StatusEnum} from '../state/contexts/GlobalContext';
 import {
   CompositeScreenProps,
   useNavigation,
@@ -19,13 +11,11 @@ import {
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {ExploreStackParamList, TabParamList} from '../navigation/Home';
 import {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
-import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {Colors} from '../utils/colors';
 import Container from '../components/common/Container';
 import FlaqButton from '../components/common/flaqui/FlaqButton';
 import FlaqCustomInput from '../components/common/flaqui/FlaqCustomInput';
-import FlaqPasswordInput from '../components/common/flaqui/FlaqPasswordInput';
 import {showMessage} from 'react-native-flash-message';
 import Clipboard from '@react-native-community/clipboard';
 
@@ -35,7 +25,6 @@ export type TipScreenProps = CompositeScreenProps<
 >;
 
 const TipScreen = () => {
-  const {state} = useContext(GlobalContext);
   const {
     params: {walletAddress},
   } = useRoute<TipScreenProps['route']>();

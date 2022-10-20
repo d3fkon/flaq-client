@@ -163,7 +163,7 @@ const ExploreScreen: FC<ExploreScreenProps> = ({navigation}) => {
             </FlaqText>
           )}
         </ScrollView>
-        <HomeInfoCards />
+        <HomeInfoCards lang={lang} />
         <Container>
           <FlaqText align="left" weight="semibold" size="lg" mt={30} mb={20}>
             {lang === 'eng' ? 'questions?' : 'सवाल?'}
