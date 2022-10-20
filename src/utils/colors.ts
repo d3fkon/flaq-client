@@ -11,6 +11,10 @@ let theme = {
     black: '#000000',
     transparent: 'transparent',
     purple: '#4A25B3',
+    darkpink: '#A40246',
+    darkorange: '#B43F28',
+    lightpink: '#FFBAD7',
+    lightorange: '#FFE1DB',
   },
   text: {
     white: '#ffffff',
@@ -25,6 +29,10 @@ let theme = {
     awaiting: '#d27d00',
     purple: '#6F6CD9',
     pink: '#FFD7CE',
+    darkpink: '#A40246',
+    darkorange: '#B43F28',
+    lightpink: '#FFBAD7',
+    lightorange: '#FFE1DB',
   },
 };
 // if (colorScheme === 'dark') {

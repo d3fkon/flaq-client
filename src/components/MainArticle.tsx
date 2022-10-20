@@ -41,13 +41,14 @@ const MainArticle = ({data}: {data: Article}) => {
   return (
     // <TouchableOpacity onPress={openLink}>
     <TouchableOpacity onPress={openWebView}>
-      <LinearGradient
-        start={{x: 0.0, y: 0.25}}
-        end={{x: 0.5, y: 1.0}}
-        colors={['#F6B364', '#9E58F6']}
+      <View
+        // start={{x: 0.0, y: 0.25}}
+        // end={{x: 0.5, y: 1.0}}
+        // colors={['#F6B364', '#9E58F6']}
         style={{
-          backgroundColor: Colors.background.black,
+          backgroundColor: Colors.background.dark,
           padding: 16,
+          justifyContent: 'space-evenly',
           borderColor: Colors.background.dark,
           borderWidth: 1,
           width: 200,
@@ -58,21 +59,26 @@ const MainArticle = ({data}: {data: Article}) => {
         <Image
           source={{uri: data.iconUrl}}
           style={{
-            width: 40,
-            height: 40,
-            position: 'absolute',
-            top: 8,
-            left: 8,
+            width: 60,
+            height: 60,
             resizeMode: 'contain',
-            marginRight: 16,
           }}
         />
-        <View style={{justifyContent: 'center', flex: 1}}>
-          <FlaqText size="md" weight="medium" align="left" mt={12}>
-            {data.title}
-          </FlaqText>
-        </View>
-      </LinearGradient>
+        <Image
+          source={require('../../assets/images/waves.png')}
+          style={{
+            top: 0,
+            left: 0,
+            width: 200,
+            height: 200,
+            position: 'absolute',
+            resizeMode: 'cover',
+          }}
+        />
+        <FlaqText size="md" weight="medium" align="left" mt={12}>
+          {data.title}
+        </FlaqText>
+      </View>
     </TouchableOpacity>
   );
 };

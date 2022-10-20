@@ -1,18 +1,9 @@
-import React, {FC, useContext, useState} from 'react';
-import {
-  ActivityIndicator,
-  Alert,
-  Image,
-  ScrollView,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import React, {FC, useContext} from 'react';
+import {ActivityIndicator, Image, ScrollView, View} from 'react-native';
 import FlaqButton from '../components/common/flaqui/FlaqButton';
 import FlaqContainer from '../components/common/flaqui/FlaqContainer';
 import FlaqText from '../components/common/flaqui/FlaqText';
 import globalStyles from '../utils/global_styles';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import {Colors} from '../utils/colors';
 import Container from '../components/common/Container';
 import {useQuery} from '@tanstack/react-query';
 import {AccountStatus, GlobalContext} from '../state/contexts/GlobalContext';
@@ -23,9 +14,8 @@ import {showMessage} from 'react-native-flash-message';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {ExploreStackParamList} from '../navigation/Home';
 import FlaqAccordian from '../components/common/flaqui/FlaqAccordian';
-import {logout} from '../apis/query';
-import {StorageClearAll} from '../utils/storage';
 import HomeInfoCards from '../components/HomeInfoCards';
+import {questions} from '../utils/constants';
 
 export type LevelOne = {
   _id: string;
@@ -39,7 +29,6 @@ type ExploreScreenProps = NativeStackScreenProps<
 >;
 
 const ExploreScreen: FC<ExploreScreenProps> = ({navigation}) => {
-  // const [lang, setLang] = useState<'eng' | 'hn'>('eng');
   const {
     state: {lang},
     dispatch,
@@ -74,77 +63,6 @@ const ExploreScreen: FC<ExploreScreenProps> = ({navigation}) => {
     navigation.navigate('Level', {level});
   };
 
-  // const changeLang = () => {
-  //   setLang(lang === 'eng' ? 'hn' : 'eng');
-  // };
-
-  const englishQuestions = [
-    {
-      title: 'Are each of the courses constrained by time?',
-      content:
-        'No, you can read any part of the course and complete whichever course you choose to, at your own pace.',
-    },
-    {
-      title: 'Do I have to pay to access the content?',
-      content:
-        'No, all of our educative pieces are free of cost and at no point will you be asked to pay.',
-    },
-    {
-      title:
-        'Can I reach out to the team in case of any content-related doubts for guidance?',
-      content:
-        "yes, you can reach out to us through our contact us page and we're here to guide you!",
-    },
-  ];
-
-  const hindiQuestions = [
-    {
-      title: 'क्या प्रत्येक पाठ्यक्रम समय से विवश है?',
-      content:
-        'नहीं, आप पाठ्यक्रम के किसी भी भाग को पढ़ सकते हैं और अपनी गति से जो भी पाठ्यक्रम चुनते हैं उसे पूरा कर सकते हैं।',
-    },
-    {
-      title: 'क्या मुझे सामग्री तक पहुंचने के लिए भुगतान करना होगा?',
-      content:
-        'नहीं, हमारे सभी शिक्षाप्रद अंश निःशुल्क हैं और आपको किसी भी समय भुगतान करने के लिए नहीं कहा जाएगा।',
-    },
-    {
-      title:
-        'क्या मैं मार्गदर्शन के लिए सामग्री से संबंधित किसी भी संदेह के मामले में टीम से संपर्क कर सकता हूं?',
-      content:
-        'हाँ, आप हमसे संपर्क करें पृष्ठ के माध्यम से हमसे संपर्क कर सकते हैं और हम आपका मार्गदर्शन करने के लिए यहां हैं!',
-    },
-  ];
-
-  const logoutUser = async () => {
-    try {
-      await logout();
-      await StorageClearAll();
-      dispatch(setAccountStatus(AccountStatus.NEW));
-    } catch (e) {
-      showMessage({
-        message: 'error logging out',
-        type: 'danger',
-      });
-    }
-  };
-
-  const handleLogout = async () => {
-    Alert.alert('are you sure you want to logout?', '', [
-      {
-        text: 'Cancel',
-        onPress: () => console.log('Cancel Pressed'),
-        style: 'cancel',
-      },
-      {
-        text: 'Ok',
-        onPress: async () => {
-          await logoutUser();
-        },
-      },
-    ]);
-  };
-
   if (isLoading) {
     return (
       <FlaqContainer fullWidth={true}>
@@ -159,41 +77,7 @@ const ExploreScreen: FC<ExploreScreenProps> = ({navigation}) => {
                 size="lg">
                 {lang === 'eng' ? 'explore flaq' : 'Flaq का अन्वेषण करें'}
               </FlaqText>
-              {/* <TouchableOpacity onPress={changeLang}>
-                <View
-                  accessible={true}
-                  accessibilityLabel="loading"
-                  style={globalStyles.rowCenter}>
-                  {isFetching && (
-                    <ActivityIndicator
-                      size={'small'}
-                      style={{marginTop: 30, marginBottom: 20, marginRight: 10}}
-                    />
-                  )}
-                  <FlaqText
-                    accessible={true}
-                    accessibilityLabel={`change language to ${
-                      lang === 'eng' ? 'hindi' : 'eng'
-                    }`}
-                    mt={30}
-                    mb={20}
-                    color="awaiting"
-                    style={{textDecorationLine: 'underline'}}
-                    weight="semibold">
-                    {lang === 'eng' ? 'hindi' : 'eng'}
-                  </FlaqText>
-                </View>
-              </TouchableOpacity> */}
             </View>
-            {/* <TouchableOpacity onPress={() => handleLogout()}>
-              <FlaqText
-                mt={30}
-                mb={20}
-                style={{color: '#991b1b'}}
-                weight="bold">
-                logout
-              </FlaqText>
-            </TouchableOpacity> */}
           </View>
         </Container>
         <View style={globalStyles.fullCenter}>
@@ -216,9 +100,7 @@ const ExploreScreen: FC<ExploreScreenProps> = ({navigation}) => {
               width: '100%',
               paddingVertical: 12,
             }}>
-            <FlaqAccordian
-              sections={lang === 'eng' ? englishQuestions : hindiQuestions}
-            />
+            <FlaqAccordian sections={questions[lang]} />
           </ScrollView>
         </Container>
       </FlaqContainer>
@@ -233,30 +115,7 @@ const ExploreScreen: FC<ExploreScreenProps> = ({navigation}) => {
             <FlaqText align="left" weight="semibold" mt={30} mb={20} size="lg">
               {lang === 'eng' ? 'explore flaq' : 'Flaq का अन्वेषण करें'}
             </FlaqText>
-            {/* <TouchableOpacity style={{marginLeft: 10}} onPress={changeLang}>
-              <View style={globalStyles.rowCenter}>
-                {isFetching && (
-                  <ActivityIndicator
-                    size={'small'}
-                    style={{marginTop: 30, marginBottom: 20, marginRight: 10}}
-                  />
-                )}
-                <FlaqText
-                  mt={30}
-                  mb={20}
-                  color="awaiting"
-                  style={{textDecorationLine: 'underline'}}
-                  weight="semibold">
-                  {lang === 'eng' ? 'hindi' : 'eng'}
-                </FlaqText>
-              </View>
-            </TouchableOpacity> */}
           </View>
-          {/* <TouchableOpacity onPress={() => handleLogout()}>
-            <FlaqText mt={30} mb={20} style={{color: '#991b1b'}} weight="bold">
-              logout
-            </FlaqText>
-          </TouchableOpacity> */}
         </View>
       </Container>
       <ScrollView horizontal={false} style={{width: '100%'}}>
@@ -310,9 +169,7 @@ const ExploreScreen: FC<ExploreScreenProps> = ({navigation}) => {
             {lang === 'eng' ? 'questions?' : 'सवाल?'}
           </FlaqText>
           <View style={globalStyles.fullWidth}>
-            <FlaqAccordian
-              sections={lang === 'eng' ? englishQuestions : hindiQuestions}
-            />
+            <FlaqAccordian sections={questions[lang]} />
           </View>
         </Container>
       </ScrollView>

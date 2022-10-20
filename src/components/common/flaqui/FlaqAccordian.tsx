@@ -25,11 +25,11 @@ const FlaqAccordian = ({sections}: {sections: any}) => {
           size="sm"
           align="left"
           weight="semibold"
-          style={{paddingRight: 20}}>
+          style={{paddingRight: 20, flex: 1}}>
           {section.title}
         </FlaqText>
         {/* <FlaqIcon name="plus" /> */}
-        <AntDesign name="plus" color="white" />
+        <AntDesign style={{}} name="plus" color="white" />
       </View>
     );
   };

@@ -3,6 +3,7 @@ import {
   ActivityIndicator,
   Alert,
   Image,
+  Linking,
   ScrollView,
   TouchableOpacity,
   View,
@@ -34,6 +35,7 @@ type ProfileType = {
   startIcon: string;
   startIconType: IconType;
   endIcon?: string;
+  iconColor?: keyof typeof Colors.text;
   endIconType?: IconType;
 };
 
@@ -71,6 +73,21 @@ const ProfileScreen = () => {
     ]);
   };
 
+  const openLink = (url: string) => {
+    Linking.canOpenURL(url).then((supported: any) => {
+      if (supported) {
+        Linking.openURL(url);
+      } else {
+        // console.log("Don't know how to open URI: " + url);
+        showMessage({
+          message:
+            "can't open link. please select default browser in the setting",
+          type: 'info',
+        });
+      }
+    });
+  };
+
   const items: ProfileType[] = [
     {
       title: 'change language',
@@ -80,30 +97,40 @@ const ProfileScreen = () => {
       startIcon: 'language',
       startIconType: 'entypo',
       endIcon: 'chevron-right',
+      iconColor: 'pink',
       endIconType: 'feather',
     },
     {
       title: 'twitter',
-      handleClick: () => {},
+      handleClick: () => {
+        openLink('https://twitter.com/flaq_club');
+      },
       startIcon: 'logo-twitter',
       startIconType: 'ionicons',
       endIcon: 'chevron-right',
+      iconColor: 'link',
       endIconType: 'feather',
     },
     {
       title: 'discord',
-      handleClick: () => {},
+      handleClick: () => {
+        openLink('https://discord.gg/558xYr4ZRG');
+      },
       startIcon: 'discord',
       startIconType: 'fontisto',
       endIcon: 'chevron-right',
+      iconColor: 'purple',
       endIconType: 'feather',
     },
     {
       title: 'website',
-      handleClick: () => {},
+      handleClick: () => {
+        openLink('https://www.flaq.club/');
+      },
       startIcon: 'globe-outline',
       startIconType: 'ionicons',
       endIcon: 'chevron-right',
+      iconColor: 'solana-green',
       endIconType: 'feather',
     },
     {
@@ -112,6 +139,7 @@ const ProfileScreen = () => {
         handleLogout();
       },
       startIcon: 'logout',
+      iconColor: 'white',
       startIconType: 'mi',
     },
   ];
@@ -150,7 +178,7 @@ const ProfileItem = ({data}: {data: ProfileType}) => {
       <View style={[globalStyles.rowCenter]}>
         <FlaqIcon
           type="normal"
-          color="white"
+          color={data.iconColor}
           size="lg"
           variant={data.startIconType}
           name={data.startIcon}

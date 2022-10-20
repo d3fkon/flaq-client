@@ -17,7 +17,7 @@ const Chapter: FC<
 > = ({title, description1, index, walletAddress, _id, levelOne, levelId}) => {
   const navigation = useNavigation<ChapterScreenProps['navigation']>();
   const getLink = () => {
-    switch (levelId) {
+    switch (levelId % 4) {
       case 0: {
         return require('../../assets/images/small/one.png');
       }
@@ -54,12 +54,13 @@ const Chapter: FC<
       style={{
         backgroundColor: Colors.background.black,
         marginTop: 10,
-        padding: 16,
-        borderRadius: 8,
+        padding: 20,
+        borderRadius: 10,
         borderColor: Colors.background.dark,
         borderWidth: 1,
-        width: index % 2 === 0 ? '47%' : '50%',
-        marginRight: index % 2 === 0 ? '2%' : 0,
+        // width: index % 2 === 0 ? '47%' : '50%',
+        // marginRight: index % 2 === 0 ? '2%' : 0,
+        width: '100%',
       }}>
       <Image
         source={link}
