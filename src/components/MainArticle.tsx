@@ -20,18 +20,7 @@ const MainArticle = ({data}: {data: Article}) => {
 
   const openLink = () => {
     const link = data.url;
-    Linking.canOpenURL(link).then(supported => {
-      if (supported) {
-        Linking.openURL(link);
-      } else {
-        console.log("Don't know how to open URI: " + link);
-        showMessage({
-          message:
-            "can't open link. please select default browser in the setting",
-          type: 'info',
-        });
-      }
-    });
+    Linking.openURL(link);
   };
 
   const openWebView = () => {

@@ -61,18 +61,7 @@ const ProfileScreen = () => {
   };
 
   const openLink = (url: string) => {
-    Linking.canOpenURL(url).then((supported: any) => {
-      if (supported) {
-        Linking.openURL(url);
-      } else {
-        // console.log("Don't know how to open URI: " + url);
-        showMessage({
-          message:
-            "can't open link. please select default browser in the setting",
-          type: 'info',
-        });
-      }
-    });
+    Linking.openURL(url);
   };
 
   const items: ProfileType[] = [

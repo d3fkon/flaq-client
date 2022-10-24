@@ -1,11 +1,10 @@
-import {Image, Linking, View} from 'react-native';
+import {Image, Linking, TouchableOpacity, View} from 'react-native';
 import React, {FC} from 'react';
 import FlaqText from './common/flaqui/FlaqText';
 import {Colors} from '../utils/colors';
 import globalStyles from '../utils/global_styles';
 import Container from './common/Container';
 import FlaqIcon, {IconType} from './common/flaqui/FlaqIcon';
-import {TouchableOpacity} from 'react-native-gesture-handler';
 import {showMessage} from 'react-native-flash-message';
 
 type HomeInfoCardType = {
@@ -21,17 +20,7 @@ type HomeInfoCardType = {
 };
 
 const openLink = (url: string) => {
-  Linking.canOpenURL(url).then((supported: any) => {
-    if (supported) {
-      Linking.openURL(url);
-    } else {
-      showMessage({
-        message:
-          "can't open link. please select default browser in the setting",
-        type: 'info',
-      });
-    }
-  });
+  Linking.openURL(url);
 };
 
 const HomeInfoCards = ({lang}: {lang: 'eng' | 'hn'}) => {
@@ -49,6 +38,7 @@ const HomeInfoCards = ({lang}: {lang: 'eng' | 'hn'}) => {
       iconColor: 'darkpink',
       iconBackground: 'lightpink',
       handlePress: () => {
+        console.log('LANG', lang);
         if (lang === 'hn') {
           openLink(
             'https://onpar.notion.site/Course-Roadmap-c28c293212e048da975a1de1ea1ab4e2',

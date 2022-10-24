@@ -31,18 +31,7 @@ const TipScreen = () => {
   const navigation = useNavigation<TipScreenProps['navigation']>();
 
   const openPhantom = () => {
-    const link = 'https://phantom.app/';
-    Linking.canOpenURL(link).then(supported => {
-      if (supported) {
-        Linking.openURL(link);
-      } else {
-        console.log("Don't know how to open URI: " + link);
-        showMessage({
-          message: "can't open phantom. please open it manually",
-          type: 'info',
-        });
-      }
-    });
+    Linking.openURL('https://phantom.app/');
   };
   const handleCopy = (text: string) => {
     Clipboard.setString(text);
